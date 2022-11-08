@@ -12,6 +12,7 @@ import com.github.aptemkov.expensestracker.data.Item
 import com.github.aptemkov.expensestracker.data.getFormattedPrice
 import com.github.aptemkov.expensestracker.databinding.FragmentItemDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.text.SimpleDateFormat
 
 class ItemDetailFragment : Fragment() {
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
@@ -19,9 +20,9 @@ class ItemDetailFragment : Fragment() {
     private var _binding: FragmentItemDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: InventoryViewModel by activityViewModels {
+    private val viewModel: ExpensesViewModel by activityViewModels {
         InventoryViewModelFactory(
-            (activity?.application as InventoryApplication).database.itemDao()
+            (activity?.application as ExpensesApplication).database.itemDao()
         )
     }
 
@@ -74,7 +75,9 @@ class ItemDetailFragment : Fragment() {
             itemName.text = item.itemName
             itemPrice.text = item.getFormattedPrice()
             itemCount.text = item.quantityInStock.toString()
-            itemDate.text = item.date.toString()
+
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+            itemDate.text = simpleDateFormat.format(item.date)
 
             sellItem.isEnabled = viewModel.isSellAvailable(item)
             sellItem.setOnClickListener { viewModel.sellItem(item) }

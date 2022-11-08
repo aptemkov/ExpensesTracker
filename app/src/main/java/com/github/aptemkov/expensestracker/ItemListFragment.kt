@@ -15,9 +15,9 @@ class ItemListFragment : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: InventoryViewModel by activityViewModels {
+    private val viewModel: ExpensesViewModel by activityViewModels {
         InventoryViewModelFactory(
-            (activity?.application as InventoryApplication).database.itemDao()
+            (activity?.application as ExpensesApplication).database.itemDao()
         )
     }
 

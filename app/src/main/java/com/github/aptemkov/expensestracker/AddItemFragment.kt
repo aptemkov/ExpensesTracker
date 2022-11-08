@@ -14,8 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.aptemkov.expensestracker.data.Item
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
-import java.util.Date
-import kotlin.properties.Delegates
+import java.util.Calendar
 
 
 class AddItemFragment : Fragment() {
@@ -24,13 +23,13 @@ class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: InventoryViewModel by activityViewModels {
+    private val viewModel: ExpensesViewModel by activityViewModels {
         InventoryViewModelFactory(
-            (activity?.application as InventoryApplication).database.itemDao()
+            (activity?.application as ExpensesApplication).database.itemDao()
         )
     }
     lateinit var item: Item
-    private var date by Delegates.notNull<Long>()
+    private var date: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +53,13 @@ class AddItemFragment : Fragment() {
                 addNewItem()
             }
         }
+
+        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth)
+            date = calendar.timeInMillis
+            //Toast.makeText(activity?.applicationContext, "$date", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -62,7 +68,7 @@ class AddItemFragment : Fragment() {
             binding.itemName.text.toString(),
             binding.itemPrice.text.toString(),
             binding.itemCount.text.toString(),
-            binding.calendarView.date.toString()
+            if(date != null) date.toString() else binding.calendarView.date.toString()
         )
     }
 
@@ -72,13 +78,17 @@ class AddItemFragment : Fragment() {
                 binding.itemName.text.toString(),
                 binding.itemPrice.text.toString(),
                 binding.itemCount.text.toString(),
-                binding.calendarView.date.toString()
+                if(date != null) date.toString() else binding.calendarView.date.toString()
             )
         }
         val action =
             AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
         findNavController().navigate(action)
-        Toast.makeText(activity?.applicationContext, "${binding.calendarView.date}", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            activity?.applicationContext,
+            "${binding.calendarView.date}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onDestroyView() {
@@ -108,7 +118,7 @@ class AddItemFragment : Fragment() {
                 this.binding.itemName.text.toString(),
                 this.binding.itemPrice.text.toString(),
                 this.binding.itemCount.text.toString(),
-                this.binding.calendarView.date.toString()
+                if(date != null) date.toString() else binding.calendarView.date.toString()
             )
         }
         val action =

@@ -6,7 +6,7 @@ import com.github.aptemkov.expensestracker.data.ItemDao
 import kotlinx.coroutines.launch
 
 
-class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
+class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 
     val allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
 
@@ -97,9 +97,9 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
 
 class InventoryViewModelFactory(private val itemDao: ItemDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(InventoryViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ExpensesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return InventoryViewModel(itemDao) as T
+            return ExpensesViewModel(itemDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
