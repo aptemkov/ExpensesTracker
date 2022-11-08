@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.aptemkov.expensestracker.data.Item
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
-import java.util.Calendar
+import java.util.*
 
 
 class AddItemFragment : Fragment() {
@@ -40,6 +41,11 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as AppCompatActivity).supportActionBar?.show()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
@@ -54,41 +60,38 @@ class AddItemFragment : Fragment() {
             }
         }
 
-        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
-            //Toast.makeText(activity?.applicationContext, "$date", Toast.LENGTH_SHORT).show()
         }
     }
 
 
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
-            binding.itemName.text.toString(),
+            binding.itemCategory.text.toString(),
             binding.itemPrice.text.toString(),
-            binding.itemCount.text.toString(),
-            if(date != null) date.toString() else binding.calendarView.date.toString()
+            if (date != null) date.toString() else binding.calendarView.date.toString()
         )
     }
 
     private fun addNewItem() {
         if (isEntryValid()) {
             viewModel.addNewItem(
-                binding.itemName.text.toString(),
+                binding.itemCategory.text.toString(),
                 binding.itemPrice.text.toString(),
-                binding.itemCount.text.toString(),
-                if(date != null) date.toString() else binding.calendarView.date.toString()
+                binding.itemIsCompulsory.isChecked.toString(),
+                if (date != null) date.toString() else binding.calendarView.date.toString()
             )
+            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
+            findNavController().navigate(action)
         }
-        val action =
-            AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
-        findNavController().navigate(action)
-        Toast.makeText(
-            activity?.applicationContext,
-            "${binding.calendarView.date}",
-            Toast.LENGTH_LONG
-        ).show()
+        else {
+            binding.itemCategory.error = "Input error"
+            binding.itemIsCompulsory.error = "Input error"
+            binding.itemPrice.error = "Input error"
+        }
     }
 
     override fun onDestroyView() {
@@ -101,11 +104,10 @@ class AddItemFragment : Fragment() {
     }
 
     private fun bind(item: Item) {
-        val price = "%.2f".format(item.itemPrice)
         binding.apply {
-            itemName.setText(item.itemName, TextView.BufferType.SPANNABLE)
-            itemPrice.setText(price, TextView.BufferType.SPANNABLE)
-            itemCount.setText(item.quantityInStock.toString(), TextView.BufferType.SPANNABLE)
+            itemCategory.setText(item.itemCategory, TextView.BufferType.SPANNABLE)
+            itemPrice.setText(item.itemPrice.toString())
+            itemIsCompulsory.isChecked = item.isCompulsory
             calendarView.date = item.date
             saveAction.setOnClickListener { updateItem() }
         }
@@ -115,15 +117,17 @@ class AddItemFragment : Fragment() {
         if (isEntryValid()) {
             viewModel.updateItem(
                 this.navigationArgs.itemId,
-                this.binding.itemName.text.toString(),
+                this.binding.itemCategory.text.toString(),
                 this.binding.itemPrice.text.toString(),
-                this.binding.itemCount.text.toString(),
-                if(date != null) date.toString() else binding.calendarView.date.toString()
+                this.binding.itemIsCompulsory.isChecked.toString(),
+                if (date != null) date.toString() else binding.calendarView.date.toString()
             )
+            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
+            findNavController().navigate(action)
         }
-        val action =
-            AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
-        findNavController().navigate(action)
+        else {
+            binding.itemCategory.error = getString(R.string.InputError)
+            binding.itemPrice.error = getString(R.string.InputError)
+        }
     }
-
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -70,11 +71,17 @@ class ItemDetailFragment : Fragment() {
         _binding = null
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as AppCompatActivity).supportActionBar?.show()
+    }
+
+
     private fun bind(item: Item) {
         binding.apply {
-            itemName.text = item.itemName
+            itemCategory.text = item.itemCategory
             itemPrice.text = item.getFormattedPrice()
-            itemCount.text = item.quantityInStock.toString()
+            itemIsCompulsory.text = item.isCompulsory.toString()
 
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
             itemDate.text = simpleDateFormat.format(item.date)

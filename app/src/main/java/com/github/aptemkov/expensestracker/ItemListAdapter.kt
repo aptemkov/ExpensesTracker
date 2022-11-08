@@ -35,9 +35,9 @@ class ItemListAdapter(private val onItemClicked: (Item) -> Unit) :
 
         fun bind(item: Item) {
             binding.apply {
-                itemName.text = item.itemName
+                itemCategory.text = item.itemCategory
                 itemPrice.text = item.getFormattedPrice()
-                itemQuantity.text = item.quantityInStock.toString()
+                itemQuantity.text = item.isCompulsory.toString()
             }
         }
     }
@@ -49,7 +49,7 @@ class ItemListAdapter(private val onItemClicked: (Item) -> Unit) :
             }
 
             override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem.itemName == newItem.itemName
+                return oldItem.itemCategory == newItem.itemCategory
             }
         }
     }

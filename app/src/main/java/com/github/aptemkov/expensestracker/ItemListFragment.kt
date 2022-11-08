@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.aptemkov.expensestracker.databinding.FragmentItemListBinding
+import androidx.appcompat.app.AppCompatActivity as AppCompatActivity
 
 class ItemListFragment : Fragment() {
 
@@ -28,6 +29,11 @@ class ItemListFragment : Fragment() {
     ): View {
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

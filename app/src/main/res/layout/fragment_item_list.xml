@@ -8,7 +8,7 @@
     tools:context=".ItemListFragment">
 
     <TextView
-        android:id="@+id/item_name"
+        android:id="@+id/item_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -18,37 +18,37 @@
 
         android:textAppearance="?attr/textAppearanceOverline"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/item_price"
+        app:layout_constraintEnd_toStartOf="@+id/item_quanity"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_price"
+        android:id="@+id/item_quanity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_name"
+        android:layout_below="@+id/item_category"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Price"
+        android:text="Compulsory"
 
         android:textAppearance="?attr/textAppearanceOverline"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/item_quantity"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/item_name"
+        app:layout_constraintEnd_toStartOf="@+id/item_price"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/item_category"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_quantity"
+        android:id="@+id/item_price"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="8dp"
-        android:text="Quantity"
+        android:text="Price"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/item_price"
+        app:layout_constraintStart_toEndOf="@+id/item_quanity"
         app:layout_constraintTop_toTopOf="parent"
 
         android:textSize = "14sp"
@@ -63,7 +63,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_quantity"
+        app:layout_constraintTop_toBottomOf="@+id/item_price"
 
         android:layout_width = "match_parent"
         android:layout_height = "1dp"

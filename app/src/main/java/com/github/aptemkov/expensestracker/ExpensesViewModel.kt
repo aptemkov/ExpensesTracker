@@ -1,5 +1,6 @@
 package com.github.aptemkov.expensestracker
 
+import android.database.Observable
 import androidx.lifecycle.*
 import com.github.aptemkov.expensestracker.data.Item
 import com.github.aptemkov.expensestracker.data.ItemDao
@@ -18,11 +19,11 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     private fun getNewItemEntry
-                (itemName: String, itemPrice: String, itemCount: String, date: String): Item {
+                (itemName: String, itemPrice: String, isCompulsory: String, date: String): Item {
         return Item(
-            itemName = itemName,
+            itemCategory = itemName,
             itemPrice = itemPrice.toDouble(),
-            quantityInStock = itemCount.toInt(),
+            isCompulsory = isCompulsory.toBoolean(),
             date = date.toLong()
         )
     }
@@ -32,8 +33,9 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         insertItem(item)
     }
 
-    fun isEntryValid(itemName: String, itemPrice: String, itemCount: String, date: String): Boolean {
-        if (itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank() || date.isBlank()) {
+    fun isEntryValid(itemName: String, itemPrice: String, date: String): Boolean {
+        if (itemName.isBlank() || itemPrice.isBlank() || date.isBlank()
+            || itemPrice.length > 9) {
             return false
         }
         return true
@@ -50,14 +52,12 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     fun sellItem(item: Item) {
-        if (item.quantityInStock > 0) {
-            val newItem = item.copy(quantityInStock = item.quantityInStock - 1)
-            updateItem(newItem)
-        }
+        val newItem = item.copy(isCompulsory = !item.isCompulsory)
+        updateItem(newItem)
     }
 
     fun isSellAvailable(item: Item): Boolean {
-        return (item.quantityInStock > 0)
+        return true
     }
 
     fun deleteItem(item: Item) {
@@ -70,14 +70,14 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         itemId: Int,
         itemName: String,
         itemPrice: String,
-        itemCount: String,
+        isCompulsory: String,
         date: String,
     ): Item {
         return Item(
             id = itemId,
-            itemName = itemName,
+            itemCategory = itemName,
             itemPrice = itemPrice.toDouble(),
-            quantityInStock = itemCount.toInt(),
+            isCompulsory = isCompulsory.toBoolean(),
             date = date.toLong()
         )
     }
@@ -92,6 +92,9 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         val updatedItem = getUpdatedItemEntry(itemId, itemName, itemPrice, itemCount, date)
         updateItem(updatedItem)
     }
+
+
+
 }
 
 

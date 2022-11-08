@@ -8,36 +8,36 @@
     android:descendantFocusability="blocksDescendants">
 
     <TextView
-        android:id="@+id/item_name"
+        android:id="@+id/item_category"
         android:layout_width="180dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintEnd_toStartOf="@+id/item_price"
+        app:layout_constraintEnd_toStartOf="@+id/item_quantity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Item" />
 
 
     <TextView
-        android:id="@+id/item_price"
+        android:id="@+id/item_quantity"
         android:layout_width="100dp"
         android:layout_height="48dp"
-        android:layout_below="@+id/item_name"
+        android:layout_below="@+id/item_category"
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_vertical"
         android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintEnd_toStartOf="@+id/item_quantity"
+        app:layout_constraintEnd_toStartOf="@+id/item_price"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/item_name"
+        app:layout_constraintStart_toEndOf="@+id/item_category"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="BYN 1.53" />
+        tools:text="1" />
 
     <TextView
-        android:id="@+id/item_quantity"
+        android:id="@+id/item_price"
         android:layout_width="80dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
@@ -48,6 +48,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="1" />
+        tools:text="1.32 Br" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
