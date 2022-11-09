@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.github.aptemkov.expensestracker.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_addItemFragment2"
+            app:destination="@id/addItemFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment2"
+        android:name="com.github.aptemkov.expensestracker.AddItemFragment"
+        android:label="AddItemFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="item_id"
+            app:argType="integer" />
+    </fragment>
+</navigation>
