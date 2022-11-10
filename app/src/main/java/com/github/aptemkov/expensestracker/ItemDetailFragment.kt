@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat
 
 class ItemDetailFragment : Fragment() {
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
-
     private var _binding: FragmentItemDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -96,7 +95,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     private fun editItem() {
-        val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddItemFragment(
+        val action = ItemDetailFragmentDirections.actionItemDetailFragment2ToAddItemFragment(
             getString(R.string.edit_fragment_title),
             item.id
         )

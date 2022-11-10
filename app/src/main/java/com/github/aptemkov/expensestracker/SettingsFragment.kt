@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.aptemkov.expensestracker.databinding.FragmentSettingsBinding
-import com.github.aptemkov.expensestracker.databinding.FragmentTabsBinding
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 

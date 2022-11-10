@@ -84,7 +84,7 @@ class AddItemFragment : Fragment() {
                 binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
+            val action = AddItemFragmentDirections.actionAddItemFragmentToNavigationList()
             findNavController().navigate(action)
         }
         else {
@@ -122,7 +122,7 @@ class AddItemFragment : Fragment() {
                 this.binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
+            val action = AddItemFragmentDirections.actionAddItemFragmentToNavigationList()
             findNavController().navigate(action)
         }
         else {
