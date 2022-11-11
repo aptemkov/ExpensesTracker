@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -25,7 +27,9 @@
             app:destination="@id/itemDetailFragment2" />
         <action
             android:id="@+id/action_navigation_list_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/navigation_list"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -43,7 +47,9 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_itemDetailFragment2_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/itemDetailFragment2"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

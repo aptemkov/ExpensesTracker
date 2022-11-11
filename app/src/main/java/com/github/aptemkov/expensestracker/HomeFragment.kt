@@ -15,7 +15,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        binding.textView.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToAddItemFragment(
                 getString(R.string.add_fragment_title),
                 -1

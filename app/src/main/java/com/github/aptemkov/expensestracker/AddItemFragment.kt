@@ -46,6 +46,11 @@ class AddItemFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
