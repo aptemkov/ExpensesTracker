@@ -12,6 +12,16 @@
         android:title="@string/list_title" />
 
     <item
+        android:id="@+id/placeholder"
+        android:title=""
+        />
+
+    <item
+        android:id="@id/navigation_chart"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
+        android:title="Chart" />
+
+    <item
         android:id="@id/navigation_settings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/settings_title" />

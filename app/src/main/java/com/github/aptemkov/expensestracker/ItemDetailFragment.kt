@@ -96,7 +96,7 @@ class ItemDetailFragment : Fragment() {
 
     private fun editItem() {
         val action = ItemDetailFragmentDirections.actionItemDetailFragment2ToAddItemFragment(
-            getString(R.string.edit_fragment_title),
+            //getString(R.string.edit_fragment_title),
             item.id
         )
         this.findNavController().navigate(action)

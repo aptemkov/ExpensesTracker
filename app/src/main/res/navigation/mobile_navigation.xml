@@ -60,10 +60,13 @@
             android:id="@+id/action_addItemFragment_to_navigation_list"
             app:destination="@id/navigation_list" />
         <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
             android:name="item_id"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.github.aptemkov.expensestracker.ChartFragment"
+        android:label="fragment_chart"
+        tools:layout="@layout/fragment_chart" />
 </navigation>

@@ -41,7 +41,7 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
@@ -49,7 +49,7 @@ class AddItemFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,8 +89,7 @@ class AddItemFragment : Fragment() {
                 binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToNavigationList()
-            findNavController().navigate(action)
+            findNavController().popBackStack()
         }
         else {
             binding.itemCategory.error = "Input error"
@@ -127,8 +126,7 @@ class AddItemFragment : Fragment() {
                 this.binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToNavigationList()
-            findNavController().navigate(action)
+            findNavController().popBackStack()
         }
         else {
             binding.itemCategory.error = getString(R.string.InputError)

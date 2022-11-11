@@ -36,7 +36,7 @@ class ItemListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.floatingActionButton.setOnClickListener {
             val action = ItemListFragmentDirections.actionNavigationListToAddItemFragment(
-                getString(R.string.add_fragment_title),
+                //getString(R.string.add_fragment_title),
                 -1
             )
             this.findNavController().navigate(action)
