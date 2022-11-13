@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.github.aptemkov.expensestracker.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
-
+    //TODO(Make secret fragment with Harry Potter quotes(faker library))
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

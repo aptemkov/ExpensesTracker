@@ -54,6 +54,7 @@ class AddItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
+
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
                 item = selectedItem
@@ -70,8 +71,8 @@ class AddItemFragment : Fragment() {
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
         }
-    }
 
+    }
 
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
@@ -89,11 +90,10 @@ class AddItemFragment : Fragment() {
                 binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            findNavController().popBackStack()
+            goBack()
         }
         else {
             binding.itemCategory.error = "Input error"
-            binding.itemIsCompulsory.error = "Input error"
             binding.itemPrice.error = "Input error"
         }
     }
@@ -126,11 +126,17 @@ class AddItemFragment : Fragment() {
                 this.binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            findNavController().popBackStack()
+            goBack()
         }
         else {
             binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
+    }
+
+
+
+    private fun goBack() {
+        requireActivity().onBackPressed()
     }
 }

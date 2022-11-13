@@ -68,5 +68,9 @@
         android:id="@+id/navigation_chart"
         android:name="com.github.aptemkov.expensestracker.ChartFragment"
         android:label="fragment_chart"
-        tools:layout="@layout/fragment_chart" />
+        tools:layout="@layout/fragment_chart" >
+        <action
+            android:id="@+id/action_navigation_chart_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+    </fragment>
 </navigation>
