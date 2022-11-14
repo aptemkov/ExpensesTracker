@@ -18,8 +18,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         binding = FragmentChartBinding.bind(view)
         binding.floatingActionButton.setOnClickListener {
             val action = ChartFragmentDirections.actionNavigationChartToAddItemFragment(
-                //getString(R.string.add_fragment_title),
-                -1
+                -1,
+                getString(R.string.add_fragment_title)
             )
             this.findNavController().navigate(action)
         }

@@ -18,4 +18,14 @@
     <string name="save_button">Save</string>
     <string name="price_hint">Price</string>
     <string name="category_hint">Category</string>
+    <string name="home_fragment_title">Home</string>
+    <string name="list_fragment_title">List</string>
+    <string name="settings_fragment_title">Settings</string>
+    <string name="chart_fragment_title">Chart</string>
+    <string name="detail_fragment_title">Details</string>
+    <string name="date">Date</string>
+    <string name="change">Change</string>
+    <string name="delete">Delete</string>
+    <string name="edit_item">Edit item</string>
+    <string name="item">Item</string>
 </resources>

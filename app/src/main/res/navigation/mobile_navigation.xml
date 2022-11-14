@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.github.aptemkov.expensestracker.HomeFragment"
-        android:label="fragment_home"
+        android:label="@string/home_fragment_title"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_addItemFragment"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/navigation_list"
         android:name="com.github.aptemkov.expensestracker.ItemListFragment"
-        android:label="fragment_item_list"
+        android:label="@string/list_fragment_title"
         tools:layout="@layout/fragment_item_list" >
         <action
             android:id="@+id/action_navigation_list_to_itemDetailFragment2"
@@ -35,13 +35,13 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.github.aptemkov.expensestracker.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/settings_fragment_title"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/itemDetailFragment2"
         android:name="com.github.aptemkov.expensestracker.ItemDetailFragment"
-        android:label="fragment_item_detail"
-        tools:layout="@layout/fragment_item_detail" >
+        android:label="@string/detail_fragment_title"
+        tools:layout="@layout/fragment_item_detail">
         <argument
             android:name="item_id"
             app:argType="integer" />
@@ -55,19 +55,22 @@
     <fragment
         android:id="@+id/addItemFragment"
         android:name="com.github.aptemkov.expensestracker.AddItemFragment"
-        android:label="AddItemFragment" >
+        android:label="{title}" >
         <action
             android:id="@+id/action_addItemFragment_to_navigation_list"
             app:destination="@id/navigation_list" />
         <argument
             android:name="item_id"
             app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_chart"
         android:name="com.github.aptemkov.expensestracker.ChartFragment"
-        android:label="fragment_chart"
+        android:label="@string/chart_fragment_title"
         tools:layout="@layout/fragment_chart" >
         <action
             android:id="@+id/action_navigation_chart_to_addItemFragment"

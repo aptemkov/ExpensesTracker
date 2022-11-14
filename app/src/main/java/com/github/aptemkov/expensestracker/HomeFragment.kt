@@ -17,8 +17,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding = FragmentHomeBinding.bind(view)
         binding.floatingActionButton.setOnClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToAddItemFragment(
-                //getString(R.string.add_fragment_title),
-                -1
+                -1,
+                getString(R.string.add_fragment_title)
             )
             this.findNavController().navigate(action)
         }

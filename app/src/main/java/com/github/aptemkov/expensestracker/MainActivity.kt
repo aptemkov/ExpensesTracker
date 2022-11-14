@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -16,12 +17,14 @@ import com.github.aptemkov.expensestracker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
@@ -39,6 +42,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() ||     super.onSupportNavigateUp()
+    }
+
     //TODO(fix launching adding fragment by pressing floating action button)
     fun openAddingFragment(view: View) {
         /*supportFragmentManager
