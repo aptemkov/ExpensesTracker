@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.github.aptemkov.expensestracker.HomeFragment"
+        android:label="@string/home_fragment_title"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_addItemFragment"
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_list"
+        android:name="com.github.aptemkov.expensestracker.ItemListFragment"
+        android:label="@string/list_fragment_title"
+        tools:layout="@layout/fragment_item_list" >
+        <action
+            android:id="@+id/action_navigation_list_to_itemDetailFragment2"
+            app:destination="@id/itemDetailFragment2" />
+        <action
+            android:id="@+id/action_navigation_list_to_addItemFragment"
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/navigation_list"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.github.aptemkov.expensestracker.SettingsFragment"
+        android:label="@string/settings_fragment_title"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/itemDetailFragment2"
+        android:name="com.github.aptemkov.expensestracker.ItemDetailFragment"
+        android:label="@string/detail_fragment_title"
+        tools:layout="@layout/fragment_item_detail">
+        <argument
+            android:name="item_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_itemDetailFragment2_to_addItemFragment"
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/itemDetailFragment2"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.github.aptemkov.expensestracker.AddItemFragment"
+        android:label="{title}" >
+        <action
+            android:id="@+id/action_addItemFragment_to_navigation_list"
+            app:destination="@id/navigation_list" />
+        <argument
+            android:name="item_id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.github.aptemkov.expensestracker.ChartFragment"
+        android:label="@string/chart_fragment_title"
+        tools:layout="@layout/fragment_chart" >
+        <action
+            android:id="@+id/action_navigation_chart_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+    </fragment>
+</navigation>

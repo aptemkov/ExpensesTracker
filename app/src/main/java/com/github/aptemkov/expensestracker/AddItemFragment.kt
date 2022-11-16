@@ -41,14 +41,21 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+    }*/
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
+
+
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
                 item = selectedItem
@@ -65,8 +72,8 @@ class AddItemFragment : Fragment() {
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
         }
-    }
 
+    }
 
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
@@ -84,12 +91,10 @@ class AddItemFragment : Fragment() {
                 binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
-            findNavController().navigate(action)
+            goBack()
         }
         else {
             binding.itemCategory.error = "Input error"
-            binding.itemIsCompulsory.error = "Input error"
             binding.itemPrice.error = "Input error"
         }
     }
@@ -122,12 +127,16 @@ class AddItemFragment : Fragment() {
                 this.binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
-            findNavController().navigate(action)
+            goBack()
         }
         else {
             binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
+    }
+
+
+    private fun goBack() {
+        findNavController().navigateUp()
     }
 }

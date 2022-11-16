@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
     tools:context=".ItemListFragment">
 
     <TextView
@@ -14,60 +13,60 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Item"
+        android:text="@string/category_hint"
 
         android:textAppearance="?attr/textAppearanceOverline"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/item_quanity"
-        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintEnd_toStartOf="@+id/item_compulsory"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_quanity"
+        android:id="@+id/item_compulsory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_category"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Compulsory"
+        android:text="@string/compulsory"
 
         android:textAppearance="?attr/textAppearanceOverline"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/item_price"
-        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/item_category"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+
         android:id="@+id/item_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Price"
+        android:text="@string/price_hint"
         android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceOverline"
+
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/item_quanity"
-        app:layout_constraintTop_toTopOf="parent"
-
-        android:textSize = "14sp"
-        android:layout_marginTop = "8dp"
-        android:layout_width = "0dp"
-        android:layout_height = "wrap_content"
-        android:textAppearance = "?attr/textAppearanceOverline"/>
+        app:layout_constraintStart_toEndOf="@+id/item_compulsory"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_price"
-
-        android:layout_width = "match_parent"
-        android:layout_height = "1dp"
-        android:background = "?android:attr/listDivider"/>
+        app:layout_constraintTop_toBottomOf="@+id/item_price" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -76,18 +75,29 @@
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        tools:listitem="@layout/item_list_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="Add new item"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/add_fragment_title"
         android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white" />
+
+
+    <View
+        android:id="@+id/bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="54dp"
+        android:background="@color/invisible"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

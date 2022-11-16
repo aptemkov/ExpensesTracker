@@ -31,24 +31,19 @@ class ItemListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.floatingActionButton.setOnClickListener {
-            val action = ItemListFragmentDirections.actionItemListFragmentToAddItemFragment(
-                getString(R.string.add_fragment_title),
-                -1
+            val action = ItemListFragmentDirections.actionNavigationListToAddItemFragment(
+                -1,
+                getString(R.string.add_fragment_title)
             )
             this.findNavController().navigate(action)
         }
 
         val adapter = ItemListAdapter {
-            val action = ItemListFragmentDirections.actionItemListFragmentToItemDetailFragment(it.id)
+            val action = ItemListFragmentDirections.actionNavigationListToItemDetailFragment2(it.id)
             this.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = adapter
@@ -57,13 +52,5 @@ class ItemListFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
-        binding.floatingActionButton.setOnClickListener {
-            val action = ItemListFragmentDirections.actionItemListFragmentToAddItemFragment(
-                getString(R.string.add_fragment_title),
-                -1
-            )
-            this.findNavController().navigate(action)
-        }
-
     }
 }
