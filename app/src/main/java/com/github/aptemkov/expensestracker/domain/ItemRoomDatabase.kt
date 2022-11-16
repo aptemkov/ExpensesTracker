@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker.data
+package com.github.aptemkov.expensestracker.domain
 
 import android.content.Context
 import androidx.room.Database

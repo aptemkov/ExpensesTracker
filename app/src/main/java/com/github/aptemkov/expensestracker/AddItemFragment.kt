@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.aptemkov.expensestracker.data.Item
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
+import com.github.aptemkov.expensestracker.domain.Item
 import java.util.*
 
 
@@ -31,6 +31,7 @@ class AddItemFragment : Fragment() {
     }
     lateinit var item: Item
     private var date: Long? = null
+    private var category = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +56,14 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
+        val adapter = CategoryAdapter {
+            category = it
+            Toast.makeText(activity?.applicationContext, category, Toast.LENGTH_SHORT).show()
+        }
+        binding.categoryRv.adapter = adapter
+        var categories = resources.getStringArray(R.array.category).apply {
+
+        }
 
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->

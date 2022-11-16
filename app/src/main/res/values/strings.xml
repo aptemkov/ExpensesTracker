@@ -28,4 +28,19 @@
     <string name="delete">Delete</string>
     <string name="edit_item">Edit item</string>
     <string name="item">Item</string>
+
+
+    <string-array name="category">
+
+        <item>Misc</item>
+        <item>Food</item>
+        <item>Yummy</item>
+        <item>Health</item>
+        <item>Rent</item>
+        <item>Home</item>
+        <item>Transport</item>
+        <item>Gifts</item>
+        <item>Entertainment</item>
+
+    </string-array>
 </resources>

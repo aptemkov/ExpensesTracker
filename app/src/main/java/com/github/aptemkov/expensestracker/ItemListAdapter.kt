@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.aptemkov.expensestracker.data.Item
-import com.github.aptemkov.expensestracker.data.getFormattedPrice
+import com.github.aptemkov.expensestracker.domain.Item
+import com.github.aptemkov.expensestracker.domain.getFormattedPrice
 import com.github.aptemkov.expensestracker.databinding.ItemListItemBinding
 
 class ItemListAdapter(private val onItemClicked: (Item) -> Unit) :

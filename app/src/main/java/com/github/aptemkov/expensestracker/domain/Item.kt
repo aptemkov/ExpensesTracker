@@ -1,11 +1,8 @@
-package com.github.aptemkov.expensestracker.data
+package com.github.aptemkov.expensestracker.domain
 
-import androidx.core.content.res.TypedArrayUtils.getResourceId
-import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.github.aptemkov.expensestracker.R
 import java.text.NumberFormat
 
 @Entity(tableName = "item" )

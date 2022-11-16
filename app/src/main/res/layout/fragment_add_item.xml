@@ -26,7 +26,19 @@
             android:layout_height="match_parent"
             android:inputType="textAutoComplete|textCapWords"
             android:singleLine="true" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/category_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"
+            tools:listitem="@layout/category_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_category_label"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/item_price_label"
@@ -36,7 +48,7 @@
         android:hint="@string/price_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_category_label"
+        app:layout_constraintTop_toBottomOf="@+id/category_rv"
         app:prefixText="BYN">
 
         <com.google.android.material.textfield.TextInputEditText
