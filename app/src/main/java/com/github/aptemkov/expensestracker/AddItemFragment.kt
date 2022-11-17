@@ -1,6 +1,7 @@
 package com.github.aptemkov.expensestracker
 
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.icu.lang.UCharacter.VerticalOrientation
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,13 +57,20 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
-        val adapter = CategoryAdapter {
-            category = it
-            Toast.makeText(activity?.applicationContext, category, Toast.LENGTH_SHORT).show()
-        }
-        binding.categoryRv.adapter = adapter
-        var categories = resources.getStringArray(R.array.category).apply {
+        val categories = resources.getStringArray(R.array.category)
 
+        val adapter = CategoryAdapter(object : CategoryActionListener {
+            override fun onClick(categ: String) {
+                //Toast.makeText(activity?.applicationContext, category, Toast.LENGTH_SHORT).show()
+                binding.itemCategory.setText(categ, TextView.BufferType.SPANNABLE)
+            }
+        })
+        val layoutManager =
+            LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.HORIZONTAL, false)
+        adapter.categories = categories.toList()
+        binding.categoryRv.apply {
+            this.adapter = adapter
+            this.layoutManager = layoutManager
         }
 
         if (id > 0) {
@@ -101,8 +109,7 @@ class AddItemFragment : Fragment() {
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
             goBack()
-        }
-        else {
+        } else {
             binding.itemCategory.error = "Input error"
             binding.itemPrice.error = "Input error"
         }
@@ -137,8 +144,7 @@ class AddItemFragment : Fragment() {
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
             goBack()
-        }
-        else {
+        } else {
             binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
