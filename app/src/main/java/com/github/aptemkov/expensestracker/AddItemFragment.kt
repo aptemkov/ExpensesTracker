@@ -2,8 +2,10 @@ package com.github.aptemkov.expensestracker
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.icu.lang.UCharacter.VerticalOrientation
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -16,6 +18,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
 import com.github.aptemkov.expensestracker.domain.Item
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
 
@@ -89,7 +94,6 @@ class AddItemFragment : Fragment() {
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
         }
-
     }
 
     private fun isEntryValid(): Boolean {
@@ -149,7 +153,6 @@ class AddItemFragment : Fragment() {
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }
-
 
     private fun goBack() {
         findNavController().navigateUp()

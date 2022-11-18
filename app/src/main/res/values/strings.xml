@@ -30,8 +30,10 @@
     <string name="item">Item</string>
 
 
+
     <string-array name="category">
 
+        <item>Other</item>
         <item>Misc</item>
         <item>Food</item>
         <item>Yummy</item>
