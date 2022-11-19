@@ -2,22 +2,14 @@ package com.github.aptemkov.expensestracker
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.core.view.isGone
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.aptemkov.expensestracker.databinding.ActivityMainBinding
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
-        //supportActionBar?.hide()
+        supportActionBar?.hide()
 
         navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
@@ -52,17 +44,21 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.addItemFragment -> hideBottomNav()
+                R.id.itemDetailFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }
     }
 
+
     private fun showBottomNav() {
         binding.bottomAppBar.visibility = View.VISIBLE
+        supportActionBar?.hide()
     }
 
     private fun hideBottomNav() {
         binding.bottomAppBar.visibility = View.GONE
+        supportActionBar?.show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

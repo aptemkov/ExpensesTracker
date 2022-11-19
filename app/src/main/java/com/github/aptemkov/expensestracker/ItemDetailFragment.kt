@@ -44,8 +44,6 @@ class ItemDetailFragment : Fragment() {
             item = it
             bind(item)
         }
-
-
     }
 
     private fun showConfirmationDialog() {
@@ -63,16 +61,6 @@ class ItemDetailFragment : Fragment() {
     private fun deleteItem() {
         viewModel.deleteItem(item)
         findNavController().navigateUp()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
 
 

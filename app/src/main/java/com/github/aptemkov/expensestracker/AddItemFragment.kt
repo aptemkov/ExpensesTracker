@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -44,15 +45,6 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
-    /*override fun onResume() {
-        super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

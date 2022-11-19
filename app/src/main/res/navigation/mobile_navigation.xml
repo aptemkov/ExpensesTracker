@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_item_list" >
         <action
             android:id="@+id/action_navigation_list_to_itemDetailFragment2"
-            app:destination="@id/itemDetailFragment2" />
+            app:destination="@id/itemDetailFragment" />
         <action
             android:id="@+id/action_navigation_list_to_addItemFragment"
             app:destination="@id/addItemFragment"
@@ -38,7 +38,7 @@
         android:label="@string/settings_fragment_title"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/itemDetailFragment2"
+        android:id="@+id/itemDetailFragment"
         android:name="com.github.aptemkov.expensestracker.ItemDetailFragment"
         android:label="@string/detail_fragment_title"
         tools:layout="@layout/fragment_item_detail">
@@ -48,7 +48,7 @@
         <action
             android:id="@+id/action_itemDetailFragment2_to_addItemFragment"
             app:destination="@id/addItemFragment"
-            app:popUpTo="@id/itemDetailFragment2"
+            app:popUpTo="@id/itemDetailFragment"
             app:popUpToInclusive="false" />
     </fragment>
 
