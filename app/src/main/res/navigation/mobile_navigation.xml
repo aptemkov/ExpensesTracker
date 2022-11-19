@@ -36,7 +36,11 @@
         android:id="@+id/navigation_settings"
         android:name="com.github.aptemkov.expensestracker.SettingsFragment"
         android:label="@string/settings_fragment_title"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_secretFragment"
+            app:destination="@id/secretFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="com.github.aptemkov.expensestracker.ItemDetailFragment"
@@ -76,4 +80,15 @@
             android:id="@+id/action_navigation_chart_to_addItemFragment"
             app:destination="@id/addItemFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/secretFragment"
+        android:name="com.github.aptemkov.expensestracker.SecretFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_secret" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

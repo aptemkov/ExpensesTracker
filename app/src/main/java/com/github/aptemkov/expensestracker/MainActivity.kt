@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
-        supportActionBar?.hide()
+        //supportActionBar?.hide()
 
         navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
@@ -53,12 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showBottomNav() {
         binding.bottomAppBar.visibility = View.VISIBLE
-        supportActionBar?.hide()
+        //supportActionBar?.hide()
     }
 
     private fun hideBottomNav() {
         binding.bottomAppBar.visibility = View.GONE
-        supportActionBar?.show()
+        //supportActionBar?.show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

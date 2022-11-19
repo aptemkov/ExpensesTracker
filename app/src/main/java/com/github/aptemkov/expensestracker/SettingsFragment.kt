@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.github.aptemkov.expensestracker.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -14,6 +15,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSettingsBinding.bind(view)
+        binding.textView.setOnClickListener {
+            findNavController()
+                .navigate(SettingsFragmentDirections
+                    .actionNavigationSettingsToSecretFragment("Secret")
+                )
+        }
     }
 
 }
