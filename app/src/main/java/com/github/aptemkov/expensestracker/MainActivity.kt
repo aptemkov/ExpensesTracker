@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
+        //supportActionBar?.hide()
+
         navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -37,14 +39,17 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        /* TODO(Floating action button in bottom nav bar)
+
         binding.navView.apply {
+
             setupWithNavController(navController)
             background = null
+            /* TODO(Floating action button in bottom nav bar)
             menu.getItem(2).isEnabled = false
-        }*/
+            */
+        }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+            navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.addItemFragment -> hideBottomNav()
                 else -> showBottomNav()

@@ -28,7 +28,8 @@
     <string name="delete">Delete</string>
     <string name="edit_item">Edit item</string>
     <string name="item">Item</string>
-
+    <string name="done">Done</string>
+    <string name="close">Close</string>
 
 
     <string-array name="category">

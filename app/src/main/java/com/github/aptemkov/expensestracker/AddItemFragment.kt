@@ -1,16 +1,10 @@
 package com.github.aptemkov.expensestracker
 
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.icu.lang.UCharacter.VerticalOrientation
-import android.opengl.Visibility
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -18,9 +12,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
 import com.github.aptemkov.expensestracker.domain.Item
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
 
@@ -38,6 +29,11 @@ class AddItemFragment : Fragment() {
     lateinit var item: Item
     private var date: Long? = null
     private var category = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +62,6 @@ class AddItemFragment : Fragment() {
 
         val adapter = CategoryAdapter(object : CategoryActionListener {
             override fun onClick(categ: String) {
-                //Toast.makeText(activity?.applicationContext, category, Toast.LENGTH_SHORT).show()
                 binding.itemCategory.setText(categ, TextView.BufferType.SPANNABLE)
             }
         })
@@ -94,29 +89,8 @@ class AddItemFragment : Fragment() {
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
         }
-    }
 
-    private fun isEntryValid(): Boolean {
-        return viewModel.isEntryValid(
-            binding.itemCategory.text.toString(),
-            binding.itemPrice.text.toString(),
-            if (date != null) date.toString() else binding.calendarView.date.toString()
-        )
-    }
 
-    private fun addNewItem() {
-        if (isEntryValid()) {
-            viewModel.addNewItem(
-                binding.itemCategory.text.toString(),
-                binding.itemPrice.text.toString(),
-                binding.itemIsCompulsory.isChecked.toString(),
-                if (date != null) date.toString() else binding.calendarView.date.toString()
-            )
-            goBack()
-        } else {
-            binding.itemCategory.error = "Input error"
-            binding.itemPrice.error = "Input error"
-        }
     }
 
     override fun onDestroyView() {
@@ -138,6 +112,29 @@ class AddItemFragment : Fragment() {
         }
     }
 
+    private fun isEntryValid(): Boolean {
+        return viewModel.isEntryValid(
+            binding.itemCategory.text.toString(),
+            binding.itemPrice.text.toString(),
+            if (date != null) date.toString() else binding.calendarView.date.toString()
+        )
+    }
+
+    private fun addNewItem() {
+        if (isEntryValid()) {
+            viewModel.addNewItem(
+                binding.itemCategory.text.toString(),
+                binding.itemPrice.text.toString(),
+                binding.itemIsCompulsory.isChecked.toString(),
+                if (date != null) date.toString() else binding.calendarView.date.toString()
+            )
+            goBack()
+        } else {
+            binding.itemCategory.error = getString(R.string.InputError)
+            binding.itemPrice.error = getString(R.string.InputError)
+        }
+    }
+
     private fun updateItem() {
         if (isEntryValid()) {
             viewModel.updateItem(
@@ -151,6 +148,22 @@ class AddItemFragment : Fragment() {
         } else {
             binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.adding_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.add -> {
+                addNewItem()
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
         }
     }
 
