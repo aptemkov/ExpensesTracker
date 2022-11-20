@@ -114,17 +114,9 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/edit_item"
         android:src="@drawable/ic_edit"
-        app:layout_constraintBottom_toTopOf="@id/bottom_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white" />
-
-    <View
-        android:id="@+id/bottom_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="54dp"
-        android:background="@color/invisible"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

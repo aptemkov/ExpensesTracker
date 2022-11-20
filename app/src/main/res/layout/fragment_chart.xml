@@ -19,20 +19,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="Add new item"
+        android:contentDescription="@string/add_new_item"
         android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white"
         android:visibility="visible"/>
-
-    <View
-        android:id="@+id/bottom_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="54dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

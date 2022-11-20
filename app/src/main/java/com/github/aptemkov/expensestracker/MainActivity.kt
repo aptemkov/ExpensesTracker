@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
 
             navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.addItemFragment -> hideBottomNav()
-                R.id.itemDetailFragment -> hideBottomNav()
+                R.id.addItemFragment -> hideBottomNav(View.GONE)
+                R.id.itemDetailFragment -> hideBottomNav(View.INVISIBLE)
                 else -> showBottomNav()
             }
         }
@@ -52,12 +52,13 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun showBottomNav() {
+        var a = View.VISIBLE
         binding.bottomAppBar.visibility = View.VISIBLE
         //supportActionBar?.hide()
     }
 
-    private fun hideBottomNav() {
-        binding.bottomAppBar.visibility = View.GONE
+    private fun hideBottomNav(visibility: Int) {
+        binding.bottomAppBar.visibility = visibility
         //supportActionBar?.show()
     }
 

@@ -12,11 +12,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/item_category_label"
-            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/category_hint"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,6 +34,7 @@
             android:id="@+id/category_rv"
             android:layout_width="match_parent"
             android:layout_height="64dp"
+            android:overScrollMode="never"
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Compulsory expense"
+            android:text="@string/compulsory_expense"
             app:layout_constraintBottom_toTopOf="@+id/calendarView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_price_label" />
@@ -85,19 +86,11 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
             android:text="@string/save_button"
-            app:layout_constraintBottom_toTopOf="@id/bottom_divider"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendarView" />
-
-        <View
-            android:id="@+id/bottom_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="54dp"
-            android:background="@color/invisible"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

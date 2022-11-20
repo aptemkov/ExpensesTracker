@@ -30,6 +30,8 @@
     <string name="item">Item</string>
     <string name="done">Done</string>
     <string name="close">Close</string>
+    <string name="compulsory_expense">Compulsory expense</string>
+    <string name="add_new_item">Add new item</string>
 
 
     <string-array name="category">
