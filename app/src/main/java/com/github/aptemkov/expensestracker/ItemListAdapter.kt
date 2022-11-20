@@ -17,7 +17,9 @@ class ItemListAdapter(private val onItemClicked: (Item) -> Unit) :
             ItemListItemBinding.inflate(
                 LayoutInflater.from(
                     parent.context
-                )
+                ),
+                parent,
+                false
             )
         )
     }

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_category"
         android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="@string/compulsory"
 
         android:textAppearance="?attr/textAppearanceOverline"
@@ -46,7 +46,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/price_hint"
-        android:textAlignment="center"
+        android:textAlignment="viewEnd"
         android:textAppearance="?attr/textAppearanceOverline"
 
         android:textSize="14sp"
@@ -62,7 +62,6 @@
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_price" />
@@ -71,9 +70,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
