@@ -32,6 +32,10 @@
     <string name="close">Close</string>
     <string name="compulsory_expense">Compulsory expense</string>
     <string name="add_new_item">Add new item</string>
+    <string name="total_balance">Total balance</string>
+    <string name="total_income">Total income</string>
+    <string name="total_expense">Total expense</string>
+    <string name="expenses_by_category">Expenses by category</string>
 
 
     <string-array name="category">
