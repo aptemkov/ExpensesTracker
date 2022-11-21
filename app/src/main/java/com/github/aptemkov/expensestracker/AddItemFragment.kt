@@ -22,7 +22,7 @@ class AddItemFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ExpensesViewModel by activityViewModels {
-        InventoryViewModelFactory(
+        ExpensesViewModelFactory(
             (activity?.application as ExpensesApplication).database.itemDao()
         )
     }

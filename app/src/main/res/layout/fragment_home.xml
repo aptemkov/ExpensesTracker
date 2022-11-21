@@ -43,13 +43,13 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:textColor="@color/material_on_background_emphasis_high_type"
                         android:id="@+id/tv_total_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:text="124.03 Br"
-                        android:textColor="@color/black"
                         android:textSize="24sp" />
 
                 </LinearLayout>
@@ -109,7 +109,7 @@
                             android:layout_marginStart="21dp"
                             android:layout_marginTop="12dp"
                             android:text="383.51 Br"
-                            android:textColor="@color/black"
+                            android:textColor="@color/material_on_background_emphasis_high_type"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -155,13 +155,13 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/tv_expense_income"
+                            android:id="@+id/tv_total_expense"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="21dp"
                             android:layout_marginTop="12dp"
                             android:text="257.48 Br"
-                            android:textColor="@color/black"
+                            android:textColor="@color/material_on_background_emphasis_high_type"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -219,7 +219,7 @@
                         android:layout_marginStart="21dp"
                         android:layout_marginTop="12dp"
                         android:text="13.18 Br"
-                        android:textColor="@color/black"
+                        android:textColor="@color/material_on_background_emphasis_high_type"
                         android:textSize="24sp" />
 
                 </LinearLayout>

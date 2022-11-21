@@ -3,8 +3,11 @@ package com.github.aptemkov.expensestracker
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.github.aptemkov.expensestracker.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.animation.Easing
@@ -17,12 +20,28 @@ import com.github.mikephil.charting.utils.MPPointF
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-    //NumberFormat.getCurrencyInstance().format(itemPrice)
+    private val viewModel: HomeViewModel by activityViewModels {
+        HomeViewModelFactory(
+            (activity?.application as ExpensesApplication).database.itemDao()
+        )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentHomeBinding.bind(view)
+
+
         binding.floatingActionButton.setOnClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToAddItemFragment(
                 -1,
@@ -30,10 +49,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
             this.findNavController().navigate(action)
         }
-        initPieChart()
+
+        viewModel.allItems.observe(this.viewLifecycleOwner) { items->
+            items.let {
+
+                with(viewModel) {
+                    getFormattedWithCurrencyValue(viewModel.getTotalExpense(items))
+                        .also { binding.tvTotalExpense.text = it }
+
+                    getFormattedWithCurrencyValue(viewModel.getTotalCouldSave(items))
+                        .also { binding.tvCouldSave.text = it }
+
+                    initPieChart(getMapForPieChart(items))
+                }
+            }
+        }
     }
 
-    private fun initPieChart() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initPieChart(mapForPieChart: Map<String, Double>) {
+
+        val mainColor = com.google.android.material.R.attr.colorOnSurfaceInverse
         with(binding.pieChart) {
             // on below line we are setting user percent value,
             // setting description as enabled and offset for pie chart
@@ -46,7 +86,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // on below line we are setting hole
             isDrawHoleEnabled = true
-            setHoleColor(Color.WHITE)
+            setHoleColor(Color.TRANSPARENT)
 
             // on below line we are setting circle color and alpha
             setTransparentCircleColor(Color.WHITE)
@@ -59,6 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             // on below line we are setting center text
             setDrawCenterText(true)
             centerText = "SOON"
+            setCenterTextColor(mainColor)
 
             // on below line we are setting
             // rotation for our pie chart
@@ -73,9 +114,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // on below line we are enabling our legend for pie chart
             legend.isEnabled = true
-            setEntryLabelColor(Color.WHITE)
+            setEntryLabelColor(mainColor)
             setEntryLabelTextSize(12f)
             legend.textSize = 14f
+            legend.textColor = mainColor
             legend.orientation = Legend.LegendOrientation.VERTICAL
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
             legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER
@@ -85,10 +127,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // on below line we are creating array list and
             // adding data to it to display in pie chart
-            val entries: ArrayList<PieEntry> = ArrayList()
-            entries.add(PieEntry(70f, "Food"))
-            entries.add(PieEntry(20f, "Transport"))
-            entries.add(PieEntry(10f, "Entertainment"))
+            val entries: List<PieEntry> = mapForPieChart.map {PieEntry(it.value.toFloat(), it.key)}
 
             // on below line we are setting pie data set
             val dataSet = PieDataSet(entries, "")
@@ -102,11 +141,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             dataSet.selectionShift = 5f
 
             // add a lot of colors to list
-            val colors: ArrayList<Int> = ArrayList()
-            colors.add(resources.getColor(R.color.purple_200))
-            colors.add(resources.getColor(androidx.appcompat.R.color.material_blue_grey_800))
-            colors.add(resources.getColor(androidx.appcompat.R.color.material_deep_teal_500))
-
+            val colors: List<Int> = listOf(
+            resources.getColor(R.color.pie_chart_color1),
+            resources.getColor(R.color.pie_chart_color2),
+            resources.getColor(R.color.pie_chart_color3),
+            resources.getColor(R.color.pie_chart_color4),
+            resources.getColor(R.color.pie_chart_color5),
+            resources.getColor(R.color.pie_chart_color6),
+            resources.getColor(R.color.pie_chart_color7),
+            resources.getColor(R.color.pie_chart_color8),
+            resources.getColor(R.color.pie_chart_color9),
+            resources.getColor(R.color.pie_chart_color10),
+            resources.getColor(R.color.pie_chart_color11),
+            resources.getColor(R.color.pie_chart_color12),
+            resources.getColor(R.color.pie_chart_color13),
+            resources.getColor(R.color.pie_chart_color14),
+            resources.getColor(R.color.pie_chart_color15),
+            resources.getColor(R.color.pie_chart_color16),
+            resources.getColor(R.color.pie_chart_color17),
+            )
             // on below line we are setting colors.
             dataSet.colors = colors
 
@@ -115,7 +168,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             data.setValueFormatter(PercentFormatter())
             data.setValueTextSize(9f)
             data.setValueTypeface(Typeface.DEFAULT_BOLD)
-            data.setValueTextColor(Color.WHITE)
+            data.setValueTextColor(mainColor)
             this.data = data
 
             // undo all highlights
