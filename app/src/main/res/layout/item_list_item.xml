@@ -1,52 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:layout_marginStart="8dp"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    app:strokeWidth="0dp">
 
-    <TextView
-        android:id="@+id/item_category"
-        android:layout_width="180dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center_vertical"
-        android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintEnd_toStartOf="@+id/item_quantity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/category_hint" />
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:id="@+id/item_category"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/category_hint" />
+
+        <TextView
+            android:id="@+id/item_quantity"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_price"
+            app:layout_constraintStart_toEndOf="@id/item_category"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="true" />
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textAlignment="viewEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1.32 Br" />
 
 
-    <TextView
-        android:id="@+id/item_quantity"
-        android:layout_width="100dp"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+
+
+    <!--
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@+id/item_category"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center_vertical"
-        android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintEnd_toStartOf="@+id/item_price"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/item_category"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="true" />
+        android:descendantFocusability="blocksDescendants">
 
-    <TextView
-        android:id="@+id/item_price"
-        android:layout_width="80dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center_vertical"
-        android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="1.32 Br" />
+        <TextView
+            android:id="@+id/item_category"
+            android:layout_width="180dp"
+            android:layout_height="48dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toStartOf="@+id/item_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/category_hint" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/item_quantity"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_below="@+id/item_category"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toStartOf="@+id/item_price"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/item_category"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="true" />
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1.32 Br" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    -->

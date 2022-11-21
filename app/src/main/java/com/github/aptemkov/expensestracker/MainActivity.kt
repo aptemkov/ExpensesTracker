@@ -2,12 +2,10 @@ package com.github.aptemkov.expensestracker
 
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,13 +14,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.aptemkov.expensestracker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
+        binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
+        //supportActionBar?.hide()
 
         navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
@@ -34,19 +33,40 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
+
         binding.navView.apply {
+
             setupWithNavController(navController)
             background = null
+            /* TODO(Floating action button in bottom nav bar)
             menu.getItem(2).isEnabled = false
+            */
         }
 
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.addItemFragment -> hideBottomNav(View.GONE)
+                R.id.itemDetailFragment -> hideBottomNav(View.INVISIBLE)
+                else -> showBottomNav()
+            }
+        }
+    }
 
+
+    private fun showBottomNav() {
+        var a = View.VISIBLE
+        binding.bottomAppBar.visibility = View.VISIBLE
+        //supportActionBar?.hide()
+    }
+
+    private fun hideBottomNav(visibility: Int) {
+        binding.bottomAppBar.visibility = visibility
+        //supportActionBar?.show()
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() ||     super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
     //TODO(fix launching adding fragment by pressing floating action button)
     fun openAddingFragment(view: View) {
         /*supportFragmentManager
@@ -56,4 +76,6 @@ class MainActivity : AppCompatActivity() {
             .commit()*/
         Toast.makeText(this, "SOON", Toast.LENGTH_SHORT).show()
     }
+
+
 }

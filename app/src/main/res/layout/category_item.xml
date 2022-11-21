@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="1dp"
+    android:checkable="true"
+    android:clickable="true"
+    app:checkedIcon="@drawable/ic_baseline_home_24"
+    app:strokeWidth="0dp"
+    app:cardMaxElevation="8dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <View
+            android:id="@+id/view"
+            android:layout_width="8dp"
+            android:layout_height="match_parent"
+            android:background="@color/category_left" />
+
+        <TextView
+            android:id="@+id/category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toEndOf="@id/view"
+            android:text="@string/category_hint"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,9 +1,8 @@
 package com.github.aptemkov.expensestracker
 
-import android.database.Observable
 import androidx.lifecycle.*
-import com.github.aptemkov.expensestracker.data.Item
-import com.github.aptemkov.expensestracker.data.ItemDao
+import com.github.aptemkov.expensestracker.domain.Item
+import com.github.aptemkov.expensestracker.domain.ItemDao
 import kotlinx.coroutines.launch
 
 

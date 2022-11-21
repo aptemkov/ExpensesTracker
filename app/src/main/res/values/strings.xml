@@ -28,4 +28,28 @@
     <string name="delete">Delete</string>
     <string name="edit_item">Edit item</string>
     <string name="item">Item</string>
+    <string name="done">Done</string>
+    <string name="close">Close</string>
+    <string name="compulsory_expense">Compulsory expense</string>
+    <string name="add_new_item">Add new item</string>
+    <string name="total_balance">Total balance</string>
+    <string name="total_income">Total income</string>
+    <string name="total_expense">Total expense</string>
+    <string name="expenses_by_category">Expenses by category</string>
+
+
+    <string-array name="category">
+
+        <item>Other</item>
+        <item>Misc</item>
+        <item>Food</item>
+        <item>Yummy</item>
+        <item>Health</item>
+        <item>Rent</item>
+        <item>Home</item>
+        <item>Transport</item>
+        <item>Gifts</item>
+        <item>Entertainment</item>
+
+    </string-array>
 </resources>

@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker.data
+package com.github.aptemkov.expensestracker.domain
 
 import androidx.room.Dao
 import androidx.room.Delete

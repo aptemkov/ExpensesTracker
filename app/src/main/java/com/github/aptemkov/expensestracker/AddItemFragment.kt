@@ -2,19 +2,16 @@ package com.github.aptemkov.expensestracker
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.aptemkov.expensestracker.data.Item
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
+import com.github.aptemkov.expensestracker.domain.Item
 import java.util.*
 
 
@@ -31,6 +28,12 @@ class AddItemFragment : Fragment() {
     }
     lateinit var item: Item
     private var date: Long? = null
+    private var category = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,20 +44,25 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
-    /*override fun onResume() {
-        super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
+        val categories = resources.getStringArray(R.array.category)
+
+        val adapter = CategoryAdapter(object : CategoryActionListener {
+            override fun onClick(categ: String) {
+                binding.itemCategory.setText(categ, TextView.BufferType.SPANNABLE)
+            }
+        })
+        val layoutManager =
+            LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.HORIZONTAL, false)
+        adapter.categories = categories.toList()
+        binding.categoryRv.apply {
+            this.adapter = adapter
+            this.layoutManager = layoutManager
+        }
 
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
@@ -73,30 +81,7 @@ class AddItemFragment : Fragment() {
             date = calendar.timeInMillis
         }
 
-    }
 
-    private fun isEntryValid(): Boolean {
-        return viewModel.isEntryValid(
-            binding.itemCategory.text.toString(),
-            binding.itemPrice.text.toString(),
-            if (date != null) date.toString() else binding.calendarView.date.toString()
-        )
-    }
-
-    private fun addNewItem() {
-        if (isEntryValid()) {
-            viewModel.addNewItem(
-                binding.itemCategory.text.toString(),
-                binding.itemPrice.text.toString(),
-                binding.itemIsCompulsory.isChecked.toString(),
-                if (date != null) date.toString() else binding.calendarView.date.toString()
-            )
-            goBack()
-        }
-        else {
-            binding.itemCategory.error = "Input error"
-            binding.itemPrice.error = "Input error"
-        }
     }
 
     override fun onDestroyView() {
@@ -118,6 +103,29 @@ class AddItemFragment : Fragment() {
         }
     }
 
+    private fun isEntryValid(): Boolean {
+        return viewModel.isEntryValid(
+            binding.itemCategory.text.toString(),
+            binding.itemPrice.text.toString(),
+            if (date != null) date.toString() else binding.calendarView.date.toString()
+        )
+    }
+
+    private fun addNewItem() {
+        if (isEntryValid()) {
+            viewModel.addNewItem(
+                binding.itemCategory.text.toString(),
+                binding.itemPrice.text.toString(),
+                binding.itemIsCompulsory.isChecked.toString(),
+                if (date != null) date.toString() else binding.calendarView.date.toString()
+            )
+            goBack()
+        } else {
+            binding.itemCategory.error = getString(R.string.InputError)
+            binding.itemPrice.error = getString(R.string.InputError)
+        }
+    }
+
     private fun updateItem() {
         if (isEntryValid()) {
             viewModel.updateItem(
@@ -128,13 +136,27 @@ class AddItemFragment : Fragment() {
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
             goBack()
-        }
-        else {
+        } else {
             binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.adding_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.done -> {
+                binding.saveAction.callOnClick()
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
 
     private fun goBack() {
         findNavController().navigateUp()
