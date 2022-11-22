@@ -49,7 +49,7 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
-        val categories = resources.getStringArray(R.array.category)
+        val categories = resources.getStringArray(R.array.expense_categories)
 
         val adapter = CategoryAdapter(object : CategoryActionListener {
             override fun onClick(categ: String) {
@@ -114,6 +114,7 @@ class AddItemFragment : Fragment() {
     private fun addNewItem() {
         if (isEntryValid()) {
             viewModel.addNewItem(
+                "", //TODO(transaction)
                 binding.itemCategory.text.toString(),
                 binding.itemPrice.text.toString(),
                 binding.itemIsCompulsory.isChecked.toString(),
@@ -130,6 +131,7 @@ class AddItemFragment : Fragment() {
         if (isEntryValid()) {
             viewModel.updateItem(
                 this.navigationArgs.itemId,
+                "", //TODO(transaction)
                 this.binding.itemCategory.text.toString(),
                 this.binding.itemPrice.text.toString(),
                 this.binding.itemIsCompulsory.isChecked.toString(),

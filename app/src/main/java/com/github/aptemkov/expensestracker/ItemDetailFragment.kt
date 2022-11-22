@@ -72,12 +72,11 @@ class ItemDetailFragment : Fragment() {
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
             itemDate.text = simpleDateFormat.format(item.date)
 
-            sellItem.isEnabled = viewModel.isSellAvailable(item)
-            sellItem.setOnClickListener { viewModel.sellItem(item) }
+            editItemButton.setOnClickListener { editItem() }
 
             deleteItem.setOnClickListener { showConfirmationDialog() }
 
-            editItem.setOnClickListener { editItem() }
+            editItemFab.setOnClickListener { editItem() }
         }
     }
 

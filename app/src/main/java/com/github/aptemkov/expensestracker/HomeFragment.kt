@@ -1,5 +1,6 @@
 package com.github.aptemkov.expensestracker
 
+import android.content.res.Resources.Theme
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
+import kotlin.math.absoluteValue
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -73,11 +75,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initPieChart(mapForPieChart: Map<String, Double>) {
 
-        val mainColor = com.google.android.material.R.attr.colorOnSurfaceInverse
+
+        val mainColor = com.google.android.material.R.attr.colorSurfaceInverse
         with(binding.pieChart) {
             // on below line we are setting user percent value,
-            // setting description as enabled and offset for pie chart
             setUsePercentValues(true)
+            // setting description as enabled and offset for pie chart
             description.isEnabled = false
             setExtraOffsets(5f, 5f, 5f, 5f)
 
@@ -166,7 +169,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             // on below line we are setting pie data set
             val data = PieData(dataSet)
             data.setValueFormatter(PercentFormatter())
-            data.setValueTextSize(9f)
+            data.setValueTextSize(0f)
             data.setValueTypeface(Typeface.DEFAULT_BOLD)
             data.setValueTextColor(mainColor)
             this.data = data

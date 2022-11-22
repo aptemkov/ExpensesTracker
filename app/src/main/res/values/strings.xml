@@ -36,9 +36,10 @@
     <string name="total_income">Total income</string>
     <string name="total_expense">Total expense</string>
     <string name="expenses_by_category">Expenses by category</string>
+    <string name="edit">Edit</string>
 
 
-    <string-array name="category">
+    <string-array name="expense_categories">
 
         <item>Other</item>
         <item>Misc</item>
@@ -52,4 +53,13 @@
         <item>Entertainment</item>
 
     </string-array>
+
+    <string-array name="income_categories">
+
+        <item>Other</item>
+        <item>Salary</item>
+        <item>Gift</item>
+
+    </string-array>
+
 </resources>

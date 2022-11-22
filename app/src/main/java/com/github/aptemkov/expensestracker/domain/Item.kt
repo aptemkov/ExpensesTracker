@@ -9,6 +9,8 @@ import java.text.NumberFormat
 data class Item (
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
+    @ColumnInfo(name = "transactionType")
+    var transactionType: String,
     @ColumnInfo(name = "category")
     val itemCategory: String,
     @ColumnInfo(name = "price")

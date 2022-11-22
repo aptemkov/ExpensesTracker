@@ -17,9 +17,15 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         }
     }
 
-    private fun getNewItemEntry
-                (itemName: String, itemPrice: String, isCompulsory: String, date: String): Item {
+    private fun getNewItemEntry(
+        itemTransactionType: String,
+        itemName: String,
+        itemPrice: String,
+        isCompulsory: String,
+        date: String
+    ): Item {
         return Item(
+            transactionType = itemTransactionType,
             itemCategory = itemName,
             itemPrice = itemPrice.toDouble(),
             isCompulsory = isCompulsory.toBoolean(),
@@ -27,8 +33,8 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         )
     }
 
-    fun addNewItem(itemName: String, itemPrice: String, itemCount: String, date: String) {
-        val item = getNewItemEntry(itemName, itemPrice, itemCount, date)
+    fun addNewItem(itemTransactionType: String, itemName: String, itemPrice: String, itemCount: String, date: String) {
+        val item = getNewItemEntry(itemTransactionType, itemName, itemPrice, itemCount, date)
         insertItem(item)
     }
 
@@ -44,19 +50,10 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         return itemDao.getItem(id).asLiveData()
     }
 
-    fun updateItem(item: Item) {
+    private fun updateItem(item: Item) {
         viewModelScope.launch {
             itemDao.update(item)
         }
-    }
-
-    fun sellItem(item: Item) {
-        val newItem = item.copy(isCompulsory = !item.isCompulsory)
-        updateItem(newItem)
-    }
-
-    fun isSellAvailable(item: Item): Boolean {
-        return true
     }
 
     fun deleteItem(item: Item) {
@@ -65,8 +62,9 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         }
     }
 
-    fun getUpdatedItemEntry(
+    private fun getUpdatedItemEntry(
         itemId: Int,
+        itemTransactionType: String,
         itemName: String,
         itemPrice: String,
         isCompulsory: String,
@@ -74,6 +72,7 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
     ): Item {
         return Item(
             id = itemId,
+            transactionType = itemTransactionType,
             itemCategory = itemName,
             itemPrice = itemPrice.toDouble(),
             isCompulsory = isCompulsory.toBoolean(),
@@ -83,12 +82,13 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 
     fun updateItem(
         itemId: Int,
+        transactionType: String,
         itemName: String,
         itemPrice: String,
         itemCount: String,
         date: String
     ) {
-        val updatedItem = getUpdatedItemEntry(itemId, itemName, itemPrice, itemCount, date)
+        val updatedItem = getUpdatedItemEntry(itemId, transactionType, itemName, itemPrice, itemCount, date)
         updateItem(updatedItem)
     }
 

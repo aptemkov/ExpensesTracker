@@ -3,19 +3,12 @@ package com.github.aptemkov.expensestracker
 import androidx.lifecycle.*
 import com.github.aptemkov.expensestracker.domain.Item
 import com.github.aptemkov.expensestracker.domain.ItemDao
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
 
 class HomeViewModel(private val itemDao: ItemDao) : ViewModel() {
 
     val allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
-
-    val categoryValueMap = mutableMapOf<String, Float>()
-
-    // val totalExpense = 0.0f
-    // val totalIncome = 0.0f
-    // val couldSave = 0.0f
 
     fun getTotalExpense(list: List<Item>): Double {
         return list.sumOf { expense -> expense.itemPrice }
