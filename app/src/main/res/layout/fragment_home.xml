@@ -9,9 +9,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
         android:overScrollMode="never"
-        android:scrollbars="none"
-        android:nestedScrollingEnabled="false">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,13 +43,13 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:textColor="@color/material_on_background_emphasis_high_type"
                         android:id="@+id/tv_total_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:text="124.03 Br"
+                        android:textColor="@color/material_on_background_emphasis_high_type"
                         android:textSize="24sp" />
 
                 </LinearLayout>
@@ -60,8 +60,8 @@
                 android:id="@+id/income_expense_layout"
                 android:layout_width="match_parent"
                 android:layout_height="121dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
@@ -231,8 +231,8 @@
                 android:id="@+id/cv_pie_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="12dp"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="12dp"
                 app:cardElevation="1dp"
                 app:strokeWidth="0dp">
 
@@ -250,33 +250,33 @@
                         android:text="@string/expenses_by_category"
                         android:textAllCaps="true"
                         android:textSize="12sp" />
-                    
+
                     <com.github.mikephil.charting.charts.PieChart
-                        android:layout_margin="16dp"
                         android:id="@+id/pie_chart"
                         android:layout_width="match_parent"
-                        android:layout_height="240dp"/>
+                        android:layout_height="1240dp"
+                        android:layout_margin="16dp" />
 
                 </LinearLayout>
-                
+
             </com.google.android.material.card.MaterialCardView>
-            
+
         </LinearLayout>
-        
-        
+
+
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/add_new_item"
-        android:src="@android:drawable/ic_input_add"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/add_new_item"
+            android:src="@android:drawable/ic_input_add"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

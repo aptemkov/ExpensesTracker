@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
 import com.github.aptemkov.expensestracker.domain.Item
+import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
 import java.util.*
 
 
@@ -26,9 +28,11 @@ class AddItemFragment : Fragment() {
             (activity?.application as ExpensesApplication).database.itemDao()
         )
     }
+
     lateinit var item: Item
     private var date: Long? = null
-    private var category = ""
+    private var transactionType = "expense"
+    //private var category = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,26 +53,53 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
-        val categories = resources.getStringArray(R.array.expense_categories)
+        val expenseCategories = resources.getStringArray(R.array.expense_categories)
+        val incomeCategories = resources.getStringArray(R.array.income_categories)
 
         val adapter = CategoryAdapter(object : CategoryActionListener {
-            override fun onClick(categ: String) {
-                binding.itemCategory.setText(categ, TextView.BufferType.SPANNABLE)
+            override fun onClick(category: String) {
+                binding.itemCategory.setText(category, TextView.BufferType.SPANNABLE)
             }
         })
         val layoutManager =
             LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.HORIZONTAL, false)
-        adapter.categories = categories.toList()
-        binding.categoryRv.apply {
+        adapter.categories = expenseCategories.toList()
+        binding.categoriesRv.apply {
             this.adapter = adapter
             this.layoutManager = layoutManager
         }
+
+
+        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.radiobutton_expense -> {
+                    adapter.categories = expenseCategories.toList()
+                    binding.categoriesRv.adapter = adapter
+                    binding.itemIsCompulsory.visibility = View.VISIBLE
+                    transactionType = EXPENSE
+                }
+                R.id.radiobutton_income -> {
+                    adapter.categories = incomeCategories.toList()
+                    binding.categoriesRv.adapter = adapter
+                    binding.itemIsCompulsory.visibility = View.GONE
+                    transactionType = INCOME
+                }
+            }
+        }
+
+
+
 
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
                 item = selectedItem
                 bind(item)
+                binding.radioGroup.check(
+                    if(item.transactionType == EXPENSE) R.id.radiobutton_expense
+                    else R.id.radiobutton_income
+                )
             }
+
         } else {
             binding.saveAction.setOnClickListener {
                 addNewItem()
@@ -114,7 +145,7 @@ class AddItemFragment : Fragment() {
     private fun addNewItem() {
         if (isEntryValid()) {
             viewModel.addNewItem(
-                "", //TODO(transaction)
+                transactionType,
                 binding.itemCategory.text.toString(),
                 binding.itemPrice.text.toString(),
                 binding.itemIsCompulsory.isChecked.toString(),
@@ -131,7 +162,7 @@ class AddItemFragment : Fragment() {
         if (isEntryValid()) {
             viewModel.updateItem(
                 this.navigationArgs.itemId,
-                "", //TODO(transaction)
+                transactionType,
                 this.binding.itemCategory.text.toString(),
                 this.binding.itemPrice.text.toString(),
                 this.binding.itemIsCompulsory.isChecked.toString(),
@@ -144,12 +175,14 @@ class AddItemFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.adding_fragment_menu, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.done -> {
                 binding.saveAction.callOnClick()
                 true

@@ -82,4 +82,8 @@
     <color name="invisible">#00000000</color>
     <color name="category_background">#E4ECE6</color>
     <color name="category_left">#B9F6CA</color>
+
+    <color name="expense_color">#EB5757</color>
+    <color name="could_save_color">#D1C757</color>
+    <color name="income_color">#6FCF97</color>
 </resources>

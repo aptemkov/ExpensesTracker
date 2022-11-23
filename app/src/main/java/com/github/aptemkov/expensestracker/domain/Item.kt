@@ -10,7 +10,7 @@ data class Item (
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
     @ColumnInfo(name = "transactionType")
-    var transactionType: String,
+    var transactionType: String = EXPENSE,
     @ColumnInfo(name = "category")
     val itemCategory: String,
     @ColumnInfo(name = "price")
@@ -19,7 +19,14 @@ data class Item (
     val date: Long,
     @ColumnInfo(name = "compulsory")
     val isCompulsory: Boolean = true,
-)
+) {
+    companion object {
+        const val EXPENSE = "expense"
+        const val INCOME = "income"
+    }
+}
+
+
 
 fun Item.getFormattedPrice(): String =
     NumberFormat.getCurrencyInstance().format(itemPrice)

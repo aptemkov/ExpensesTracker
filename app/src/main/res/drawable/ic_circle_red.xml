@@ -1,4 +1,4 @@
-<vector android:height="32dp" android:tint="#EB5757"
+<vector android:height="32dp" android:tint="@color/expense_color"
     android:viewportHeight="32" android:viewportWidth="32"
     android:alpha="0.1"
     android:width="32dp" xmlns:android="http://schemas.android.com/apk/res/android">

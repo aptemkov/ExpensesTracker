@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.FragmentItemListBinding
 
 class ItemListFragment : Fragment() {
@@ -53,6 +53,17 @@ class ItemListFragment : Fragment() {
             this.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = adapter
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 || dy < 0 && binding.floatingActionButton.isShown) binding.floatingActionButton.hide()
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) binding.floatingActionButton.show()
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
 
         viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
             items.let {

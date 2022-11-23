@@ -62,6 +62,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     getFormattedWithCurrencyValue(viewModel.getTotalCouldSave(items))
                         .also { binding.tvCouldSave.text = it }
 
+                    getFormattedWithCurrencyValue(viewModel.getTotalIncome(items))
+                        .also { binding.tvTotalIncome.text = it }
+
+                    getFormattedWithCurrencyValue(viewModel.getTotalBalance(items))
+                        .also { binding.tvTotalBalance.text = it }
+
                     initPieChart(getMapForPieChart(items))
                 }
             }
