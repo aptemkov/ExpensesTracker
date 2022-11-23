@@ -82,7 +82,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initPieChart(mapForPieChart: Map<String, Double>) {
 
 
-        val mainColor = com.google.android.material.R.attr.colorSurfaceInverse
+        val mainColor = binding.tvCouldSave.currentTextColor
         with(binding.pieChart) {
             // on below line we are setting user percent value,
             setUsePercentValues(true)
