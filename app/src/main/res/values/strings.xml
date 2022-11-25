@@ -37,10 +37,10 @@
     <string name="total_expense">Total expense</string>
     <string name="expenses_by_category">Expenses by category</string>
     <string name="edit">Edit</string>
+    <string name="transaction_type">Transaction type</string>
 
 
     <string-array name="expense_categories">
-
         <item>Other</item>
         <item>Misc</item>
         <item>Food</item>
@@ -51,16 +51,19 @@
         <item>Transport</item>
         <item>Gifts</item>
         <item>Entertainment</item>
-
     </string-array>
 
     <string-array name="income_categories">
-
         <item>Other</item>
         <item>Salary</item>
         <item>Gift</item>
         <item>Scholarship</item>
+    </string-array>
 
+    <string-array name="transaction_types">
+        <item>All transactions</item>
+        <item>Expenses</item>
+        <item>Incomes</item>
     </string-array>
 
 </resources>

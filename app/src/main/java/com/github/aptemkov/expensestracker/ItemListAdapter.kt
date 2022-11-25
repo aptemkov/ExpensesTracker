@@ -42,7 +42,6 @@ class ItemListAdapter(private val onItemClicked: (Item) -> Unit) :
             binding.apply {
                 itemCategory.text = item.itemCategory
                 itemTitle.text = item.itemCategory
-                //itemQuantity.text = item.isCompulsory.toString()
                 when (item.transactionType) {
                     EXPENSE -> {
                         val color: Int = when (item.isCompulsory) {
