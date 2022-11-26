@@ -2,11 +2,10 @@ package com.github.aptemkov.expensestracker
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,9 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.FragmentItemListBinding
-import com.github.aptemkov.expensestracker.domain.Item.Companion.ALL_TRANSACTIONS
-import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
+import com.github.aptemkov.expensestracker.domain.Item
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ItemListFragment : Fragment() {
 
@@ -44,32 +42,27 @@ class ItemListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        binding.floatingActionButton.setOnClickListener {
-            val action = ItemListFragmentDirections.actionNavigationListToAddItemFragment(
-                -1,
-                getString(R.string.add_fragment_title)
-            )
-            this.findNavController().navigate(action)
-        }
+        setupView()
 
-        adapter = ItemListAdapter {
-            val action = ItemListFragmentDirections.actionNavigationListToItemDetailFragment2(it.id)
-            this.findNavController().navigate(action)
-        }
+        adapter = ItemListAdapter(object : ItemListAdapter.Listener {
+            override fun onDetailInfo(itemId: Int) {
+                val action =
+                    ItemListFragmentDirections.actionNavigationListToItemDetailFragment2(itemId)
+                findNavController().navigate(action)
+            }
+        })
         binding.recyclerView.adapter = adapter
+
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0 || dy < 0 && binding.floatingActionButton.isShown) binding.floatingActionButton.hide()
+                if (dy > 0 && binding.floatingActionButton.isShown) binding.floatingActionButton.hide()
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -77,36 +70,17 @@ class ItemListFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
-
-        viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
-            items.let {
-                adapter.submitList(it)
-            }
-        }
     }
 
-
-    private fun observeFilter() = with(binding) {
-        lifecycleScope.launchWhenCreated {
-            viewModel.transactionType.collect { filter ->
-                when (filter) {
-                    "Overall" -> {
-                        adapter.submitList(viewModel.allItems.value)
-                        binding.recyclerView.adapter = adapter
-
-                    }
-                    "Income" -> {
-                        adapter.submitList(viewModel.allItems.value?.filter { it.transactionType == filter })
-                        binding.recyclerView.adapter = adapter
-                    }
-                    "Expense" -> {
-                        adapter.submitList(viewModel.allItems.value?.filter { it.transactionType == filter })
-                        binding.recyclerView.adapter = adapter
-                    }
-                }
-                viewModel.getAllTransaction(filter)
-            }
+    private fun setupView() {
+        binding.floatingActionButton.setOnClickListener {
+            val action = ItemListFragmentDirections.actionNavigationListToAddItemFragment(
+                -1,
+                getString(R.string.add_fragment_title)
+            )
+            this.findNavController().navigate(action)
         }
+        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
     }
 
 
@@ -136,25 +110,32 @@ class ItemListFragment : Fragment() {
                 lifecycleScope.launchWhenStarted {
                     when (position) {
                         0 -> {
+                            Toast.makeText(activity?.applicationContext, "all", Toast.LENGTH_SHORT)
+                                .show()
                             viewModel.setAllTransactions()
-                            (view as TextView).setTextColor(resources.getColor(R.color.dynamic_main_color))
                         }
                         1 -> {
-                            viewModel.setIncomeTransactions()
-                            (view as TextView).setTextColor(resources.getColor(R.color.dynamic_main_color))
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "expense",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.setExpenseTransactions()
                         }
                         2 -> {
-                            viewModel.setExpenseTransactions()
-                            (view as TextView).setTextColor(resources.getColor(R.color.dynamic_main_color))
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "income",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.setIncomeTransactions()
                         }
                     }
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                lifecycleScope.launchWhenStarted {
-                    viewModel.setAllTransactions()
-                }
+                viewModel.setAllTransactions()
             }
         }
     }
@@ -162,11 +143,27 @@ class ItemListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_about -> {
-                //TODO()
+                showConfirmationDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    private fun showConfirmationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(android.R.string.dialog_alert_title))
+            .setMessage(getString(R.string.clear_question))
+            .setCancelable(false)
+            .setNegativeButton(getString(R.string.no)) { _, _ -> }
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                viewModel.deleteAll()
+            }
+            .show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

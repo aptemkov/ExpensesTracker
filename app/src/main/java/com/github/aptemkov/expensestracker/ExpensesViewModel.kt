@@ -1,23 +1,23 @@
 package com.github.aptemkov.expensestracker
 
-import android.util.Log
-import androidx.constraintlayout.motion.utils.ViewState
 import androidx.lifecycle.*
 import com.github.aptemkov.expensestracker.domain.Item
 import com.github.aptemkov.expensestracker.domain.Item.Companion.ALL_TRANSACTIONS
 import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
 import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
 import com.github.aptemkov.expensestracker.domain.ItemDao
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
 class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 
-    val allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
+    var allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
 
+    var items: LiveData<List<Item>> = allItems
 
-    private val _transactionType = MutableStateFlow("Overall")
+    private val _transactionType = MutableStateFlow(ALL_TRANSACTIONS)
     val transactionType: StateFlow<String> = _transactionType
     
     private fun insertItem(item: Item) {
@@ -75,6 +75,12 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         }
     }
 
+    fun deleteAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            itemDao.deleteAll()
+        }
+    }
+
     private fun getUpdatedItemEntry(
         itemId: Int,
         itemTransactionType: String,
@@ -108,18 +114,17 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 
     fun setIncomeTransactions() {
         _transactionType.value = INCOME
+        //items = getByType(INCOME).asLiveData()
     }
 
     fun setExpenseTransactions() {
         _transactionType.value = EXPENSE
+        //items = getByType(EXPENSE).asLiveData()
     }
 
     fun setAllTransactions() {
         _transactionType.value = ALL_TRANSACTIONS
-    }
-
-    fun getAllTransaction(type: String) = viewModelScope.launch {
-
+        //items = allItems
     }
 }
 

@@ -5,6 +5,7 @@
     <string name="edit_fragment_title">Edit Item</string>
     <string name="item_detail_fragment_title">Item Details</string>
     <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="clear_question">Are you sure you want to clear transactions?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="compulsory">Compulsory</string>
