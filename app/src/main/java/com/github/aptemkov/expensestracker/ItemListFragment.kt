@@ -5,15 +5,18 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.FragmentItemListBinding
 import com.github.aptemkov.expensestracker.domain.Item
+import com.github.aptemkov.expensestracker.domain.Item.Companion.ALL_TRANSACTIONS
+import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ItemListFragment : Fragment() {
@@ -45,7 +48,7 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupView()
+        initViews()
 
         adapter = ItemListAdapter(object : ItemListAdapter.Listener {
             override fun onDetailInfo(itemId: Int) {
@@ -56,7 +59,7 @@ class ItemListFragment : Fragment() {
         })
         binding.recyclerView.adapter = adapter
 
-        viewModel.items.observe(viewLifecycleOwner) {
+        viewModel.allIncomes.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
@@ -72,7 +75,7 @@ class ItemListFragment : Fragment() {
         })
     }
 
-    private fun setupView() {
+    private fun initViews() {
         binding.floatingActionButton.setOnClickListener {
             val action = ItemListFragmentDirections.actionNavigationListToAddItemFragment(
                 -1,
@@ -110,33 +113,27 @@ class ItemListFragment : Fragment() {
                 lifecycleScope.launchWhenStarted {
                     when (position) {
                         0 -> {
-                            Toast.makeText(activity?.applicationContext, "all", Toast.LENGTH_SHORT)
-                                .show()
-                            viewModel.setAllTransactions()
+                            submitList(viewModel.replaceList(ALL_TRANSACTIONS))
                         }
                         1 -> {
-                            Toast.makeText(
-                                activity?.applicationContext,
-                                "expense",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            viewModel.setExpenseTransactions()
+                            submitList(viewModel.replaceList(EXPENSE))
                         }
                         2 -> {
-                            Toast.makeText(
-                                activity?.applicationContext,
-                                "income",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            viewModel.setIncomeTransactions()
+                            submitList(viewModel.replaceList(INCOME))
                         }
                     }
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                viewModel.setAllTransactions()
+                submitList(viewModel.replaceList(ALL_TRANSACTIONS))
             }
+        }
+    }
+
+    private fun submitList(newList: LiveData<List<Item>>) {
+        newList.observe(viewLifecycleOwner) {
+            adapter.submitList(newList.value)
         }
     }
 

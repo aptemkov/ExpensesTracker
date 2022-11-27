@@ -39,6 +39,7 @@
     <string name="expenses_by_category">Expenses by category</string>
     <string name="edit">Edit</string>
     <string name="transaction_type">Transaction type</string>
+    <string name="clear_transactions">Clear transactions</string>
 
 
     <string-array name="expense_categories">

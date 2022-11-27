@@ -13,13 +13,10 @@ import kotlinx.coroutines.launch
 
 class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 
-    var allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
+    var allTransactions: LiveData<List<Item>> = itemDao.getItems().asLiveData()
+    var allIncomes: LiveData<List<Item>> = itemDao.getItemsByType(INCOME).asLiveData()
+    var allExpenses: LiveData<List<Item>> = itemDao.getItemsByType(EXPENSE).asLiveData()
 
-    var items: LiveData<List<Item>> = allItems
-
-    private val _transactionType = MutableStateFlow(ALL_TRANSACTIONS)
-    val transactionType: StateFlow<String> = _transactionType
-    
     private fun insertItem(item: Item) {
         viewModelScope.launch {
             itemDao.insert(item)
@@ -111,20 +108,12 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         updateItem(updatedItem)
     }
 
-
-    fun setIncomeTransactions() {
-        _transactionType.value = INCOME
-        //items = getByType(INCOME).asLiveData()
-    }
-
-    fun setExpenseTransactions() {
-        _transactionType.value = EXPENSE
-        //items = getByType(EXPENSE).asLiveData()
-    }
-
-    fun setAllTransactions() {
-        _transactionType.value = ALL_TRANSACTIONS
-        //items = allItems
+    fun replaceList(type: String): LiveData<List<Item>> {
+        return when(type) {
+            INCOME -> allIncomes
+            EXPENSE -> allExpenses
+            else -> allTransactions
+        }
     }
 }
 

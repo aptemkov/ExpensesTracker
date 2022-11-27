@@ -27,7 +27,7 @@ interface ItemDao {
     @Query("SELECT * FROM item WHERE id = :id")
     fun getItem(id: Int): Flow<Item>
 
-    @Query("SELECT * FROM item WHERE transactionType = :type")
+    @Query("SELECT * FROM item WHERE transactionType = :type ORDER BY date DESC")
     fun getItemsByType(type: String): Flow<List<Item>>
 
     @Query("SELECT * FROM item ORDER BY date DESC")

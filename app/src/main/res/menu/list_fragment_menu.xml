@@ -1,4 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
@@ -6,12 +7,13 @@
         android:iconTint="@color/material_on_background_emphasis_high_type"
         android:title="@string/transaction_type"
         app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/action_about"
         android:enabled="true"
-        android:title="Clear transactions"
+        android:title="@string/clear_transactions"
         app:showAsAction="never" />
 
 </menu>

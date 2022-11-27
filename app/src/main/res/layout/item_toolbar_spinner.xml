@@ -5,8 +5,7 @@
     android:layout_height="50dp"
     android:ellipsize="marquee"
     android:gravity="center_vertical"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:textSize="16sp"
+    android:paddingHorizontal="16dp"
+    style="@style/TextAppearance.Material3.ActionBar.Title"
     android:textColor="@color/dynamic_main_color"
     tools:text="Transaction type" />
