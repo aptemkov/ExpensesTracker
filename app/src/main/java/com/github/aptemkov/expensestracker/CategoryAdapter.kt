@@ -1,10 +1,9 @@
 package com.github.aptemkov.expensestracker
 
-import android.net.wifi.p2p.WifiP2pManager.ActionListener
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.CategoryItemBinding
@@ -47,16 +46,5 @@ class CategoryAdapter(private val actionListener: CategoryActionListener)
     class CategoryViewHolder(val binding: CategoryItemBinding)
         : RecyclerView.ViewHolder(binding.root)
 
-    companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem === newItem
-            }
-
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem.itemCategory == newItem.itemCategory
-            }
-        }
-    }
 
 }

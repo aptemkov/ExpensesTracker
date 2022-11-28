@@ -22,6 +22,7 @@ class AddItemFragment : Fragment() {
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
     private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
+    private lateinit var firstCategory: String
 
     private val viewModel: ExpensesViewModel by activityViewModels {
         ExpensesViewModelFactory(
@@ -32,7 +33,7 @@ class AddItemFragment : Fragment() {
     lateinit var item: Item
     private var date: Long? = null
     private var transactionType = "expense"
-    //private var category = ""
+    private var category: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +58,14 @@ class AddItemFragment : Fragment() {
         val incomeCategories = resources.getStringArray(R.array.income_categories)
 
         val adapter = CategoryAdapter(object : CategoryActionListener {
-            override fun onClick(category: String) {
-                binding.itemCategory.setText(category, TextView.BufferType.SPANNABLE)
+            override fun onClick(newCategory: String) {
+                category = newCategory
             }
         })
         val layoutManager =
             LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         adapter.categories = expenseCategories.toList()
+        firstCategory = adapter.categories.first()
         binding.categoriesRv.apply {
             this.adapter = adapter
             this.layoutManager = layoutManager
@@ -74,12 +76,14 @@ class AddItemFragment : Fragment() {
             when (checkedId) {
                 R.id.radiobutton_expense -> {
                     adapter.categories = expenseCategories.toList()
+                    firstCategory = adapter.categories.first()
                     binding.categoriesRv.adapter = adapter
                     binding.itemIsCompulsory.visibility = View.VISIBLE
                     transactionType = EXPENSE
                 }
                 R.id.radiobutton_income -> {
                     adapter.categories = incomeCategories.toList()
+                    firstCategory = adapter.categories.first()
                     binding.categoriesRv.adapter = adapter
                     binding.itemIsCompulsory.visibility = View.GONE
                     transactionType = INCOME
@@ -126,7 +130,7 @@ class AddItemFragment : Fragment() {
 
     private fun bind(item: Item) {
         binding.apply {
-            itemCategory.setText(item.itemCategory, TextView.BufferType.SPANNABLE)
+            category = item.itemCategory
             itemPrice.setText(item.itemPrice.toString())
             itemIsCompulsory.isChecked = item.isCompulsory
             calendarView.date = item.date
@@ -136,7 +140,7 @@ class AddItemFragment : Fragment() {
 
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
-            binding.itemCategory.text.toString(),
+            category ?: firstCategory,
             binding.itemPrice.text.toString(),
             if (date != null) date.toString() else binding.calendarView.date.toString()
         )
@@ -146,14 +150,13 @@ class AddItemFragment : Fragment() {
         if (isEntryValid()) {
             viewModel.addNewItem(
                 transactionType,
-                binding.itemCategory.text.toString(),
+                category ?: firstCategory,
                 binding.itemPrice.text.toString(),
                 binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
             goBack()
         } else {
-            binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }
@@ -163,14 +166,14 @@ class AddItemFragment : Fragment() {
             viewModel.updateItem(
                 this.navigationArgs.itemId,
                 transactionType,
-                this.binding.itemCategory.text.toString(),
+                category ?: firstCategory,
                 this.binding.itemPrice.text.toString(),
                 this.binding.itemIsCompulsory.isChecked.toString(),
                 if (date != null) date.toString() else binding.calendarView.date.toString()
             )
             goBack()
         } else {
-            binding.itemCategory.error = getString(R.string.InputError)
+            //binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }

@@ -44,8 +44,8 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         insertItem(item)
     }
 
-    fun isEntryValid(itemName: String, itemPrice: String, date: String): Boolean {
-        if (itemName.isBlank() || itemPrice.isBlank() || date.isBlank()
+    fun isEntryValid(itemCategory: String, itemPrice: String, date: String): Boolean {
+        if (itemCategory.isBlank() || itemPrice.isBlank() || date.isBlank()
             || itemPrice.length > 9) {
             return false
         }
@@ -81,7 +81,7 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
     private fun getUpdatedItemEntry(
         itemId: Int,
         itemTransactionType: String,
-        itemName: String,
+        itemCategory: String,
         itemPrice: String,
         isCompulsory: String,
         date: String,
@@ -89,7 +89,7 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         return Item(
             id = itemId,
             transactionType = itemTransactionType,
-            itemCategory = itemName,
+            itemCategory = itemCategory,
             itemPrice = itemPrice.toDouble(),
             isCompulsory = isCompulsory.toBoolean(),
             date = date.toLong()
@@ -99,12 +99,12 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
     fun updateItem(
         itemId: Int,
         transactionType: String,
-        itemName: String,
+        itemCategory: String,
         itemPrice: String,
         itemCount: String,
         date: String
     ) {
-        val updatedItem = getUpdatedItemEntry(itemId, transactionType, itemName, itemPrice, itemCount, date)
+        val updatedItem = getUpdatedItemEntry(itemId, transactionType, itemCategory, itemPrice, itemCount, date)
         updateItem(updatedItem)
     }
 

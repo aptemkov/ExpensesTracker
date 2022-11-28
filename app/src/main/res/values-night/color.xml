@@ -2,5 +2,6 @@
 <resources>
 
     <color name="dynamic_main_color">#E6E1E5</color>
+    <color name="dynamic_main_color_reversed">#1C1B1F</color>
 
 </resources>
