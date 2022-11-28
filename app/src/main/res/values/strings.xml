@@ -5,6 +5,7 @@
     <string name="edit_fragment_title">Edit Item</string>
     <string name="item_detail_fragment_title">Item Details</string>
     <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="clear_question">Are you sure you want to clear transactions?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="compulsory">Compulsory</string>
@@ -37,10 +38,11 @@
     <string name="total_expense">Total expense</string>
     <string name="expenses_by_category">Expenses by category</string>
     <string name="edit">Edit</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="clear_transactions">Clear transactions</string>
 
 
     <string-array name="expense_categories">
-
         <item>Other</item>
         <item>Misc</item>
         <item>Food</item>
@@ -51,16 +53,19 @@
         <item>Transport</item>
         <item>Gifts</item>
         <item>Entertainment</item>
-
     </string-array>
 
     <string-array name="income_categories">
-
         <item>Other</item>
         <item>Salary</item>
         <item>Gift</item>
         <item>Scholarship</item>
+    </string-array>
 
+    <string-array name="transaction_types">
+        <item>All transactions</item>
+        <item>Expenses</item>
+        <item>Incomes</item>
     </string-array>
 
 </resources>

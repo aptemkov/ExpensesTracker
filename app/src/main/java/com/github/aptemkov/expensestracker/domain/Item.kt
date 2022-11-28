@@ -23,6 +23,7 @@ data class Item (
     companion object {
         const val EXPENSE = "expense"
         const val INCOME = "income"
+        const val ALL_TRANSACTIONS = "all"
     }
 }
 
