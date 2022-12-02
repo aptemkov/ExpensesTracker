@@ -1,12 +1,12 @@
-package com.github.aptemkov.expensestracker.domain
+package com.github.aptemkov.expensestracker.domain.transaction
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.NumberFormat
 
-@Entity(tableName = "item" )
-data class Item (
+@Entity(tableName = "transaction" )
+data class Transaction (
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
     @ColumnInfo(name = "transactionType")
@@ -29,5 +29,5 @@ data class Item (
 
 
 
-fun Item.getFormattedPrice(): String =
+fun Transaction.getFormattedPrice(): String =
     NumberFormat.getCurrencyInstance().format(itemPrice)

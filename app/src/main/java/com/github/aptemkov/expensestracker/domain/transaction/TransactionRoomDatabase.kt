@@ -1,22 +1,22 @@
-package com.github.aptemkov.expensestracker.domain
+package com.github.aptemkov.expensestracker.domain.transaction
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Item::class], version = 1, exportSchema = false)
-abstract class ItemRoomDatabase : RoomDatabase() {
-    abstract fun itemDao(): ItemDao
+@Database(entities = [Transaction::class], version = 1, exportSchema = false)
+abstract class TransactionRoomDatabase : RoomDatabase() {
+    abstract fun itemDao(): TransactionDao
 
     companion object {
-        private var INSTANCE: ItemRoomDatabase? = null
-        fun getDatabase(context: Context): ItemRoomDatabase {
+        private var INSTANCE: TransactionRoomDatabase? = null
+        fun getDatabase(context: Context): TransactionRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ItemRoomDatabase::class.java,
-                    "item_database"
+                    TransactionRoomDatabase::class.java,
+                    "transaction_database"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

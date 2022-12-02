@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.aptemkov.expensestracker.domain.Item
-import com.github.aptemkov.expensestracker.domain.getFormattedPrice
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction
+import com.github.aptemkov.expensestracker.domain.transaction.getFormattedPrice
 import com.github.aptemkov.expensestracker.databinding.FragmentItemDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
@@ -23,7 +23,7 @@ class ItemDetailFragment : Fragment() {
         )
     }
 
-    lateinit var item: Item
+    lateinit var transaction: Transaction
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +43,8 @@ class ItemDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
         viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) {
-            item = it
-            bind(item)
+            transaction = it
+            bind(transaction)
         }
     }
 
@@ -61,19 +61,19 @@ class ItemDetailFragment : Fragment() {
     }
 
     private fun deleteItem() {
-        viewModel.deleteItem(item)
+        viewModel.deleteItem(transaction)
         findNavController().navigateUp()
     }
 
 
-    private fun bind(item: Item) {
+    private fun bind(transaction: Transaction) {
         binding.apply {
-            itemCategory.text = item.itemCategory
-            itemPrice.text = item.getFormattedPrice()
-            itemIsCompulsory.text = item.isCompulsory.toString()
+            itemCategory.text = transaction.itemCategory
+            itemPrice.text = transaction.getFormattedPrice()
+            itemIsCompulsory.text = transaction.isCompulsory.toString()
 
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
-            itemDate.text = simpleDateFormat.format(item.date)
+            itemDate.text = simpleDateFormat.format(transaction.date)
 
             editItemButton.setOnClickListener { editItem() }
 
@@ -85,7 +85,7 @@ class ItemDetailFragment : Fragment() {
 
     private fun editItem() {
         val action = ItemDetailFragmentDirections.actionItemDetailFragment2ToAddItemFragment(
-            item.id,
+            transaction.id,
             getString(R.string.edit_fragment_title)
         )
         this.findNavController().navigate(action)

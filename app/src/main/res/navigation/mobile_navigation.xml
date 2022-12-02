@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="com.github.aptemkov.expensestracker.ItemListFragment"
+        android:name="com.github.aptemkov.expensestracker.TransactionListFragment"
         android:label=""
-        tools:layout="@layout/fragment_item_list" >
+        tools:layout="@layout/fragment_transaction_list" >
         <action
             android:id="@+id/action_navigation_list_to_itemDetailFragment2"
             app:destination="@id/itemDetailFragment" />
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/addItemFragment"
-        android:name="com.github.aptemkov.expensestracker.AddItemFragment"
+        android:name="com.github.aptemkov.expensestracker.AddTransactionFragment"
         android:label="{title}" >
         <action
             android:id="@+id/action_addItemFragment_to_navigation_list"

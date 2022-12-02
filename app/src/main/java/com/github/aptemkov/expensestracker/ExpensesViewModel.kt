@@ -1,25 +1,24 @@
 package com.github.aptemkov.expensestracker
 
 import androidx.lifecycle.*
-import com.github.aptemkov.expensestracker.domain.Item
-import com.github.aptemkov.expensestracker.domain.Item.Companion.ALL_TRANSACTIONS
-import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
-import com.github.aptemkov.expensestracker.domain.ItemDao
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.domain.transaction.TransactionDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
-class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
+class ExpensesViewModel(private val transactionDao: TransactionDao) : ViewModel() {
 
-    var allTransactions: LiveData<List<Item>> = itemDao.getItems().asLiveData()
-    var allIncomes: LiveData<List<Item>> = itemDao.getItemsByType(INCOME).asLiveData()
-    var allExpenses: LiveData<List<Item>> = itemDao.getItemsByType(EXPENSE).asLiveData()
+    var allTransactions: LiveData<List<Transaction>> = transactionDao.getItems().asLiveData()
+    var allIncomes: LiveData<List<Transaction>> = transactionDao.getItemsByType(INCOME).asLiveData()
+    var allExpenses: LiveData<List<Transaction>> = transactionDao.getItemsByType(EXPENSE).asLiveData()
 
-    private fun insertItem(item: Item) {
+    private fun insertItem(transaction: Transaction) {
         viewModelScope.launch {
-            itemDao.insert(item)
+            transactionDao.insert(transaction)
         }
     }
 
@@ -29,8 +28,8 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         itemPrice: String,
         isCompulsory: String,
         date: String
-    ): Item {
-        return Item(
+    ): Transaction {
+        return Transaction(
             transactionType = itemTransactionType,
             itemCategory = itemName,
             itemPrice = itemPrice.toDouble(),
@@ -52,29 +51,29 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         return true
     }
 
-    fun retrieveItem(id: Int): LiveData<Item> {
-        return itemDao.getItem(id).asLiveData()
+    fun retrieveItem(id: Int): LiveData<Transaction> {
+        return transactionDao.getItem(id).asLiveData()
     }
 
-    fun getByType(type: String): Flow<List<Item>> {
-        return itemDao.getItemsByType(type)
+    fun getByType(type: String): Flow<List<Transaction>> {
+        return transactionDao.getItemsByType(type)
     }
 
-    private fun updateItem(item: Item) {
+    private fun updateItem(transaction: Transaction) {
         viewModelScope.launch {
-            itemDao.update(item)
+            transactionDao.update(transaction)
         }
     }
 
-    fun deleteItem(item: Item) {
+    fun deleteItem(transaction: Transaction) {
         viewModelScope.launch {
-            itemDao.delete(item)
+            transactionDao.delete(transaction)
         }
     }
 
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            itemDao.deleteAll()
+            transactionDao.deleteAll()
         }
     }
 
@@ -85,8 +84,8 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         itemPrice: String,
         isCompulsory: String,
         date: String,
-    ): Item {
-        return Item(
+    ): Transaction {
+        return Transaction(
             id = itemId,
             transactionType = itemTransactionType,
             itemCategory = itemCategory,
@@ -108,7 +107,7 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
         updateItem(updatedItem)
     }
 
-    fun replaceList(type: String): LiveData<List<Item>> {
+    fun replaceList(type: String): LiveData<List<Transaction>> {
         return when(type) {
             INCOME -> allIncomes
             EXPENSE -> allExpenses
@@ -118,11 +117,11 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 }
 
 
-class ExpensesViewModelFactory(private val itemDao: ItemDao) : ViewModelProvider.Factory {
+class ExpensesViewModelFactory(private val transactionDao: TransactionDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ExpensesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ExpensesViewModel(itemDao) as T
+            return ExpensesViewModel(transactionDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

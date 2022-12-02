@@ -1,8 +1,8 @@
 package com.github.aptemkov.expensestracker
 
 import android.app.Application
-import com.github.aptemkov.expensestracker.domain.ItemRoomDatabase
+import com.github.aptemkov.expensestracker.domain.transaction.TransactionRoomDatabase
 
 class ExpensesApplication : Application() {
-    val database: ItemRoomDatabase by lazy { ItemRoomDatabase.getDatabase(this)}
+    val database: TransactionRoomDatabase by lazy { TransactionRoomDatabase.getDatabase(this)}
 }

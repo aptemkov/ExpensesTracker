@@ -4,23 +4,22 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
-import com.github.aptemkov.expensestracker.domain.Item
-import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
+import com.github.aptemkov.expensestracker.databinding.FragmentAddTransactionBinding
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
 import java.util.*
 
 
-class AddItemFragment : Fragment() {
+class AddTransactionFragment : Fragment() {
 
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
-    private var _binding: FragmentAddItemBinding? = null
+    private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
     private lateinit var firstCategory: String
 
@@ -30,7 +29,7 @@ class AddItemFragment : Fragment() {
         )
     }
 
-    lateinit var item: Item
+    lateinit var transaction: Transaction
     private var date: Long? = null
     private var transactionType = "expense"
     private var category: String? = null
@@ -45,7 +44,7 @@ class AddItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddItemBinding.inflate(inflater, container, false)
+        _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -96,10 +95,10 @@ class AddItemFragment : Fragment() {
 
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
-                item = selectedItem
-                bind(item)
+                transaction = selectedItem
+                bind(transaction)
                 binding.radioGroup.check(
-                    if(item.transactionType == EXPENSE) R.id.radiobutton_expense
+                    if(transaction.transactionType == EXPENSE) R.id.radiobutton_expense
                     else R.id.radiobutton_income
                 )
             }
@@ -128,12 +127,12 @@ class AddItemFragment : Fragment() {
         _binding = null
     }
 
-    private fun bind(item: Item) {
+    private fun bind(transaction: Transaction) {
         binding.apply {
-            category = item.itemCategory
-            itemPrice.setText(item.itemPrice.toString())
-            itemIsCompulsory.isChecked = item.isCompulsory
-            calendarView.date = item.date
+            category = transaction.itemCategory
+            itemPrice.setText(transaction.itemPrice.toString())
+            itemIsCompulsory.isChecked = transaction.isCompulsory
+            calendarView.date = transaction.date
             saveAction.setOnClickListener { updateItem() }
         }
     }
