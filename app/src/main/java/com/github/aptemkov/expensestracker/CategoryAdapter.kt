@@ -1,13 +1,12 @@
 package com.github.aptemkov.expensestracker
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.CategoryItemBinding
-import com.github.aptemkov.expensestracker.domain.Item
+import com.github.mikephil.charting.utils.Utils.init
+
 
 interface CategoryActionListener {
     fun onClick(category: String)
@@ -15,6 +14,9 @@ interface CategoryActionListener {
 
 class CategoryAdapter(private val actionListener: CategoryActionListener)
     : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(), View.OnClickListener {
+
+    var selectedItemPos = -1
+    var lastItemSelectedPos = -1
 
     override fun onClick(v: View?) {
         val category = v?.tag as String
