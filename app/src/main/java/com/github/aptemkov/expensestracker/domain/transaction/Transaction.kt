@@ -12,13 +12,16 @@ data class Transaction (
     @ColumnInfo(name = "transactionType")
     var transactionType: String = EXPENSE,
     @ColumnInfo(name = "category")
-    val itemCategory: String,
+    val transactionCategory: String,
     @ColumnInfo(name = "price")
-    val itemPrice: Double,
+    val transactionPrice: Double,
     @ColumnInfo(name = "date")
     val date: Long,
     @ColumnInfo(name = "compulsory")
     val isCompulsory: Boolean = true,
+    @ColumnInfo(name = "description")
+    val transactionDescription: String = transactionCategory,
+
 ) {
     companion object {
         const val EXPENSE = "expense"
@@ -30,4 +33,4 @@ data class Transaction (
 
 
 fun Transaction.getFormattedPrice(): String =
-    NumberFormat.getCurrencyInstance().format(itemPrice)
+    NumberFormat.getCurrencyInstance().format(transactionPrice)

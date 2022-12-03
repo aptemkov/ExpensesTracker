@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.aptemkov.expensestracker.databinding.ItemListItemBinding
+import com.github.aptemkov.expensestracker.databinding.TransactionItemBinding
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
@@ -23,7 +23,7 @@ class TransactionAdapter(private val listener: Listener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemListItemBinding.inflate(inflater, parent, false)
+        val binding = TransactionItemBinding.inflate(inflater, parent, false)
         binding.root.setOnClickListener(this)
         return ItemViewHolder(binding)
     }
@@ -34,15 +34,15 @@ class TransactionAdapter(private val listener: Listener) :
         holder.bind(item)
     }
 
-    class ItemViewHolder(private var binding: ItemListItemBinding) :
+    class ItemViewHolder(private var binding: TransactionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(transaction: Transaction) {
             binding.apply {
                 root.tag = transaction
 
-                itemCategory.text = transaction.itemCategory
-                itemTitle.text = transaction.itemCategory
+                itemCategory.text = transaction.transactionCategory
+                itemDescription.text = transaction.transactionDescription
                 when (transaction.transactionType) {
                     EXPENSE -> {
                         val color: Int = when (transaction.isCompulsory) {

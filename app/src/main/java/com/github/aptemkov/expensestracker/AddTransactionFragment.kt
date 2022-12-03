@@ -53,6 +53,8 @@ class AddTransactionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
+        initViews()
+
         val expenseCategories = resources.getStringArray(R.array.expense_categories)
         val incomeCategories = resources.getStringArray(R.array.income_categories)
 
@@ -69,7 +71,6 @@ class AddTransactionFragment : Fragment() {
             this.adapter = adapter
             this.layoutManager = layoutManager
         }
-
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -90,9 +91,6 @@ class AddTransactionFragment : Fragment() {
             }
         }
 
-
-
-
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
                 transaction = selectedItem
@@ -108,14 +106,21 @@ class AddTransactionFragment : Fragment() {
                 addNewItem()
             }
         }
+    }
+
+    private fun initViews() {
+        binding.itemIsCompulsory.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked) {
+                true -> binding.itemIsCompulsory.text = getString(R.string.compulsory_expense)
+                false -> binding.itemIsCompulsory.text = getString(R.string.incompulsory_expense)
+            }
+        }
 
         binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
         }
-
-
     }
 
     override fun onDestroyView() {
@@ -134,6 +139,7 @@ class AddTransactionFragment : Fragment() {
             itemIsCompulsory.isChecked = transaction.isCompulsory
             calendarView.date = transaction.date
             saveAction.setOnClickListener { updateItem() }
+            binding.itemDescription.setText(transaction.itemDescription)
         }
     }
 
@@ -152,7 +158,8 @@ class AddTransactionFragment : Fragment() {
                 category ?: firstCategory,
                 binding.itemPrice.text.toString(),
                 binding.itemIsCompulsory.isChecked.toString(),
-                if (date != null) date.toString() else binding.calendarView.date.toString()
+                if (date != null) date.toString() else binding.calendarView.date.toString(),
+                binding.itemDescription.text.toString()
             )
             goBack()
         } else {
@@ -168,7 +175,8 @@ class AddTransactionFragment : Fragment() {
                 category ?: firstCategory,
                 this.binding.itemPrice.text.toString(),
                 this.binding.itemIsCompulsory.isChecked.toString(),
-                if (date != null) date.toString() else binding.calendarView.date.toString()
+                if (date != null) date.toString() else binding.calendarView.date.toString(),
+                binding.itemDescription.text.toString()
             )
             goBack()
         } else {
