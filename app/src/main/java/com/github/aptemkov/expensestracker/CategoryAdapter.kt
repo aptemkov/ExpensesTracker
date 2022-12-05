@@ -9,7 +9,7 @@ import com.github.mikephil.charting.utils.Utils.init
 
 
 interface CategoryActionListener {
-    fun onClick(category: String)
+    fun onClick(category: String, v:View?)
 }
 
 class CategoryAdapter(private val actionListener: CategoryActionListener)
@@ -20,7 +20,7 @@ class CategoryAdapter(private val actionListener: CategoryActionListener)
 
     override fun onClick(v: View?) {
         val category = v?.tag as String
-        actionListener.onClick(category)
+        actionListener.onClick(category, v)
     }
 
     var categories: List<String> = emptyList()
@@ -39,6 +39,12 @@ class CategoryAdapter(private val actionListener: CategoryActionListener)
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val current = categories[position]
+
+
+        //TODO(FIX selection)
+        holder.binding.root.elevation = 4F
+        holder.binding.root.alpha = 1F
+
         holder.itemView.tag = current
         holder.binding.categoryName.text = current
     }

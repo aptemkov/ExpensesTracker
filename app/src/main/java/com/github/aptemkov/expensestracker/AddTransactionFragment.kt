@@ -1,9 +1,11 @@
 package com.github.aptemkov.expensestracker
 
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -58,9 +60,18 @@ class AddTransactionFragment : Fragment() {
         val expenseCategories = resources.getStringArray(R.array.expense_categories)
         val incomeCategories = resources.getStringArray(R.array.income_categories)
 
+        var prevView: View? = null
         val adapter = CategoryAdapter(object : CategoryActionListener {
-            override fun onClick(newCategory: String) {
+            override fun onClick(newCategory: String, v: View?) {
                 category = newCategory
+                //TODO(FIX selection)
+                if(prevView != null) {
+                    prevView?.elevation = 4F
+                    prevView?.alpha = 1F
+                }
+                prevView = v
+                prevView?.elevation = 0F
+                prevView?.alpha = 0.5F
             }
         })
         val layoutManager =
@@ -134,12 +145,12 @@ class AddTransactionFragment : Fragment() {
 
     private fun bind(transaction: Transaction) {
         binding.apply {
-            category = transaction.itemCategory
-            itemPrice.setText(transaction.itemPrice.toString())
+            category = transaction.transactionCategory
+            itemPrice.setText(transaction.transactionPrice.toString())
             itemIsCompulsory.isChecked = transaction.isCompulsory
             calendarView.date = transaction.date
             saveAction.setOnClickListener { updateItem() }
-            binding.itemDescription.setText(transaction.itemDescription)
+            binding.itemDescription.setText(transaction.transactionDescription)
         }
     }
 
@@ -180,7 +191,7 @@ class AddTransactionFragment : Fragment() {
             )
             goBack()
         } else {
-            //binding.itemCategory.error = getString(R.string.InputError)
+            //binding.transactionCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }

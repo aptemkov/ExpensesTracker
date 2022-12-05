@@ -4,15 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="48dp"
+    android:layout_height="@dimen/category_cardview_height"
     android:layout_marginEnd="16dp"
     app:cardElevation="4dp"
     android:layout_marginVertical="8dp"
     android:checkable="true"
     android:clickable="true"
-    app:checkedIcon="@drawable/ic_baseline_home_24"
-    app:strokeWidth="0dp"
-    app:cardMaxElevation="8dp">
+    app:strokeWidth="0dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"

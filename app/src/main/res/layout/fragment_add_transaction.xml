@@ -14,10 +14,10 @@
             android:id="@+id/radio_group_cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardElevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeWidth="0dp"
-            app:cardElevation="2dp">
+            app:strokeWidth="0dp">
 
 
             <RadioGroup
@@ -59,6 +59,7 @@
             </RadioGroup>
         </com.google.android.material.card.MaterialCardView>
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categories_rv"
             android:layout_width="match_parent"
@@ -66,11 +67,10 @@
             android:layout_marginTop="8dp"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/radio_group_cv"
-            tools:listitem="@layout/category_item"
-            tools:itemCount="1"/>
+            tools:itemCount="1"
+            tools:listitem="@layout/category_item" />
 
 
         <com.google.android.material.textfield.TextInputLayout

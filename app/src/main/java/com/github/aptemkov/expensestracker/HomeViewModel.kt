@@ -19,20 +19,20 @@ class HomeViewModel(private val transactionDao: TransactionDao) : ViewModel() {
     fun getTotalExpense(list: List<Transaction>): Double {
         return list
             .filter { it.transactionType == EXPENSE }
-            .sumOf { expense -> expense.itemPrice }
+            .sumOf { expense -> expense.transactionPrice }
     }
 
     fun getTotalIncome(list: List<Transaction>): Double {
         return list
             .filter { it.transactionType == INCOME }
-            .sumOf { expense -> expense.itemPrice }
+            .sumOf { expense -> expense.transactionPrice }
     }
 
     fun getTotalCouldSave(list: List<Transaction>): Double {
         return list
             .filter { it.transactionType == EXPENSE }
             .filter { !it.isCompulsory }
-            .sumOf { expense -> expense.itemPrice }
+            .sumOf { expense -> expense.transactionPrice }
     }
 
     fun getFormattedWithCurrencyValue(value: Double): String {
@@ -43,8 +43,8 @@ class HomeViewModel(private val transactionDao: TransactionDao) : ViewModel() {
         val map = mutableMapOf<String, Double>()
 
         for (expense in list.filter { it.transactionType == EXPENSE }) {
-            map[expense.itemCategory] =
-                map.getOrDefault(expense.itemCategory, 0.0) + expense.itemPrice
+            map[expense.transactionCategory] =
+                map.getOrDefault(expense.transactionCategory, 0.0) + expense.transactionPrice
         }
         return map.toMap()
     }

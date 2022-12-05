@@ -68,7 +68,7 @@ class ItemDetailFragment : Fragment() {
 
     private fun bind(transaction: Transaction) {
         binding.apply {
-            itemCategory.text = transaction.itemCategory
+            itemCategory.text = transaction.transactionCategory
             itemPrice.text = transaction.getFormattedPrice()
             itemIsCompulsory.text = transaction.isCompulsory.toString()
 
