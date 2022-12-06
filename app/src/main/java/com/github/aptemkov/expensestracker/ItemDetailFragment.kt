@@ -9,8 +9,10 @@ import androidx.navigation.fragment.navArgs
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction
 import com.github.aptemkov.expensestracker.domain.transaction.getFormattedPrice
 import com.github.aptemkov.expensestracker.databinding.FragmentItemDetailBinding
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
+import java.util.*
 
 class ItemDetailFragment : Fragment() {
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
@@ -70,17 +72,29 @@ class ItemDetailFragment : Fragment() {
         binding.apply {
             itemCategory.text = transaction.transactionCategory
             itemPrice.text = transaction.getFormattedPrice()
-            itemIsCompulsory.text = transaction.isCompulsory.toString()
+            itemIsCompulsory.text = when (transaction.transactionType) {
+                INCOME -> getString(R.string.income)
+                else -> when (transaction.isCompulsory) {
+                    true -> {
+                        getString(R.string.expense) + " (${getString(R.string.compulsory).lowercase()})"
+                    }
+                    false -> {
+                        getString(R.string.expense) + " (${getString(R.string.notCompulsory).lowercase()})"
+                    }
+                }
+            }
 
-            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val simpleDateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm ")
             itemDate.text = simpleDateFormat.format(transaction.date)
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            itemDescription.text = transaction.transactionDescription
 
-            editItemButton.setOnClickListener { editItem() }
+                //editItemButton.setOnClickListener { editItem() }
 
-            deleteItem.setOnClickListener { showConfirmationDialog() }
-
+                //deleteItem.setOnClickListener { showConfirmationDialog() }
             editItemFab.setOnClickListener { editItem() }
         }
+
     }
 
     private fun editItem() {
@@ -96,9 +110,9 @@ class ItemDetailFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.delete -> {
-                binding.deleteItem.callOnClick()
+                showConfirmationDialog()
                 true
             }
             else -> {

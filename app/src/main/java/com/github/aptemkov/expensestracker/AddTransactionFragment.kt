@@ -33,7 +33,7 @@ class AddTransactionFragment : Fragment() {
 
     lateinit var transaction: Transaction
     private var date: Long? = null
-    private var transactionType = "expense"
+    private var transactionType = EXPENSE
     private var category: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +57,8 @@ class AddTransactionFragment : Fragment() {
 
         initViews()
 
+
+
         val expenseCategories = resources.getStringArray(R.array.expense_categories)
         val incomeCategories = resources.getStringArray(R.array.income_categories)
 
@@ -68,10 +70,12 @@ class AddTransactionFragment : Fragment() {
                 if(prevView != null) {
                     prevView?.elevation = 4F
                     prevView?.alpha = 1F
+                    prevView?.isClickable = true
                 }
                 prevView = v
                 prevView?.elevation = 0F
                 prevView?.alpha = 0.5F
+                prevView?.isClickable = false
             }
         })
         val layoutManager =
