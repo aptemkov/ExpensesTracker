@@ -117,6 +117,7 @@ class AddTransactionFragment : Fragment() {
             }
 
         } else {
+            binding.radioGroup.check(R.id.radiobutton_expense)
             binding.saveAction.setOnClickListener {
                 addNewItem()
             }

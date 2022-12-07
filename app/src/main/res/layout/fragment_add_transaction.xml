@@ -24,7 +24,7 @@
                 android:id="@+id/radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checkedButton="@id/radiobutton_expense"
+                tools:checkedButton="@id/radiobutton_expense"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

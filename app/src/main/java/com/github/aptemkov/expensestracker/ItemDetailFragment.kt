@@ -98,7 +98,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     private fun editItem() {
-        val action = ItemDetailFragmentDirections.actionItemDetailFragment2ToAddItemFragment(
+        val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddItemFragment(
             transaction.id,
             getString(R.string.edit_fragment_title)
         )

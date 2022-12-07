@@ -50,7 +50,7 @@
             android:name="item_id"
             app:argType="integer" />
         <action
-            android:id="@+id/action_itemDetailFragment2_to_addItemFragment"
+            android:id="@+id/action_itemDetailFragment_to_addItemFragment"
             app:destination="@id/addItemFragment"
             app:popUpTo="@id/itemDetailFragment"
             app:popUpToInclusive="false" />
