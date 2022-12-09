@@ -1,114 +1,142 @@
 package com.github.aptemkov.expensestracker
 
 import androidx.lifecycle.*
-import com.github.aptemkov.expensestracker.domain.Item
-import com.github.aptemkov.expensestracker.domain.Item.Companion.ALL_TRANSACTIONS
-import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
-import com.github.aptemkov.expensestracker.domain.ItemDao
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.domain.transaction.TransactionDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
-class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
+class ExpensesViewModel(private val transactionDao: TransactionDao) : ViewModel() {
 
-    var allTransactions: LiveData<List<Item>> = itemDao.getItems().asLiveData()
-    var allIncomes: LiveData<List<Item>> = itemDao.getItemsByType(INCOME).asLiveData()
-    var allExpenses: LiveData<List<Item>> = itemDao.getItemsByType(EXPENSE).asLiveData()
+    var allTransactions: LiveData<List<Transaction>> = transactionDao.getItems().asLiveData()
+    var allIncomes: LiveData<List<Transaction>> = getByType(INCOME).asLiveData()
+    var allExpenses: LiveData<List<Transaction>> = getByType(EXPENSE).asLiveData()
 
-    private fun insertItem(item: Item) {
+    private fun insertItem(transaction: Transaction) {
         viewModelScope.launch {
-            itemDao.insert(item)
+            transactionDao.insert(transaction)
         }
     }
 
     private fun getNewItemEntry(
-        itemTransactionType: String,
-        itemName: String,
-        itemPrice: String,
+        transactionTransactionType: String,
+        transactionCategory: String,
+        transactionPrice: String,
         isCompulsory: String,
-        date: String
-    ): Item {
-        return Item(
-            transactionType = itemTransactionType,
-            itemCategory = itemName,
-            itemPrice = itemPrice.toDouble(),
+        date: String,
+        transactionDescription: String,
+    ): Transaction {
+        return Transaction(
+            transactionType = transactionTransactionType,
+            transactionCategory = transactionCategory,
+            transactionPrice = transactionPrice.toDouble(),
             isCompulsory = isCompulsory.toBoolean(),
-            date = date.toLong()
+            date = date.toLong(),
+            transactionDescription = transactionDescription
         )
     }
 
-    fun addNewItem(itemTransactionType: String, itemName: String, itemPrice: String, itemCount: String, date: String) {
-        val item = getNewItemEntry(itemTransactionType, itemName, itemPrice, itemCount, date)
-        insertItem(item)
+    fun addNewItem(
+        transactionTransactionType: String,
+        transactionCategory: String,
+        transactionPrice: String,
+        transactionCount: String,
+        date: String,
+        transactionDescription: String,
+    ) {
+        val transaction = getNewItemEntry(
+            transactionTransactionType,
+            transactionCategory,
+            transactionPrice,
+            transactionCount,
+            date,
+            if(transactionDescription.trim().isNotBlank()) transactionDescription else transactionCategory
+        ).also {
+            insertItem(it)
+        }
     }
 
-    fun isEntryValid(itemName: String, itemPrice: String, date: String): Boolean {
-        if (itemName.isBlank() || itemPrice.isBlank() || date.isBlank()
-            || itemPrice.length > 9) {
+    fun isEntryValid(transactionCategory: String, transactionPrice: String, date: String): Boolean {
+        if (transactionCategory.isBlank() || transactionPrice.isBlank() || date.isBlank()
+            || transactionPrice.length > 9) {
             return false
         }
         return true
     }
 
-    fun retrieveItem(id: Int): LiveData<Item> {
-        return itemDao.getItem(id).asLiveData()
+    fun retrieveItem(id: Int): LiveData<Transaction> {
+        return transactionDao.getItem(id).asLiveData()
     }
 
-    fun getByType(type: String): Flow<List<Item>> {
-        return itemDao.getItemsByType(type)
+    private fun getByType(type: String): Flow<List<Transaction>> {
+        return transactionDao.getItemsByType(type)
     }
 
-    private fun updateItem(item: Item) {
+    private fun updateItem(transaction: Transaction) {
         viewModelScope.launch {
-            itemDao.update(item)
+            transactionDao.update(transaction)
         }
     }
 
-    fun deleteItem(item: Item) {
+    fun deleteItem(transaction: Transaction) {
         viewModelScope.launch {
-            itemDao.delete(item)
+            transactionDao.delete(transaction)
         }
     }
 
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            itemDao.deleteAll()
+            transactionDao.deleteAll()
         }
     }
 
     private fun getUpdatedItemEntry(
-        itemId: Int,
-        itemTransactionType: String,
-        itemName: String,
-        itemPrice: String,
+        transactionId: Int,
+        transactionTransactionType: String,
+        transactionCategory: String,
+        transactionPrice: String,
         isCompulsory: String,
         date: String,
-    ): Item {
-        return Item(
-            id = itemId,
-            transactionType = itemTransactionType,
-            itemCategory = itemName,
-            itemPrice = itemPrice.toDouble(),
+        transactionDescription: String,
+    ): Transaction {
+        return Transaction(
+            id = transactionId,
+            transactionType = transactionTransactionType,
+            transactionCategory = transactionCategory,
+            transactionPrice = transactionPrice.toDouble(),
             isCompulsory = isCompulsory.toBoolean(),
-            date = date.toLong()
+            date = date.toLong(),
+            transactionDescription = transactionDescription
         )
     }
 
     fun updateItem(
-        itemId: Int,
+        transactionId: Int,
         transactionType: String,
-        itemName: String,
-        itemPrice: String,
-        itemCount: String,
-        date: String
+        transactionCategory: String,
+        transactionPrice: String,
+        transactionCount: String,
+        date: String,
+        transactionDescription: String,
     ) {
-        val updatedItem = getUpdatedItemEntry(itemId, transactionType, itemName, itemPrice, itemCount, date)
-        updateItem(updatedItem)
+        val updatedItem = getUpdatedItemEntry(
+            transactionId,
+            transactionType,
+            transactionCategory,
+            transactionPrice,
+            transactionCount,
+            date,
+            transactionDescription
+        ).also {
+            updateItem(it)
+        }
     }
 
-    fun replaceList(type: String): LiveData<List<Item>> {
+    fun replaceList(type: String): LiveData<List<Transaction>> {
         return when(type) {
             INCOME -> allIncomes
             EXPENSE -> allExpenses
@@ -118,11 +146,11 @@ class ExpensesViewModel(private val itemDao: ItemDao) : ViewModel() {
 }
 
 
-class ExpensesViewModelFactory(private val itemDao: ItemDao) : ViewModelProvider.Factory {
+class ExpensesViewModelFactory(private val transactionDao: TransactionDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ExpensesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ExpensesViewModel(itemDao) as T
+            return ExpensesViewModel(transactionDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

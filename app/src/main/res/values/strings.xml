@@ -32,6 +32,7 @@
     <string name="done">Done</string>
     <string name="close">Close</string>
     <string name="compulsory_expense">Compulsory expense</string>
+    <string name="incompulsory_expense">Not compulsory expense</string>
     <string name="add_new_item">Add new item</string>
     <string name="total_balance">Total balance</string>
     <string name="total_income">Total income</string>
@@ -40,6 +41,9 @@
     <string name="edit">Edit</string>
     <string name="transaction_type">Transaction type</string>
     <string name="clear_transactions">Clear transactions</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="description_hint">Description</string>
 
 
     <string-array name="expense_categories">

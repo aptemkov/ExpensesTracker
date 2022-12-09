@@ -1,24 +1,27 @@
-package com.github.aptemkov.expensestracker.domain
+package com.github.aptemkov.expensestracker.domain.transaction
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.NumberFormat
 
-@Entity(tableName = "item" )
-data class Item (
+@Entity(tableName = "transaction" )
+data class Transaction (
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
     @ColumnInfo(name = "transactionType")
     var transactionType: String = EXPENSE,
     @ColumnInfo(name = "category")
-    val itemCategory: String,
+    val transactionCategory: String,
     @ColumnInfo(name = "price")
-    val itemPrice: Double,
+    val transactionPrice: Double,
     @ColumnInfo(name = "date")
     val date: Long,
     @ColumnInfo(name = "compulsory")
     val isCompulsory: Boolean = true,
+    @ColumnInfo(name = "description")
+    val transactionDescription: String = transactionCategory,
+
 ) {
     companion object {
         const val EXPENSE = "expense"
@@ -29,5 +32,5 @@ data class Item (
 
 
 
-fun Item.getFormattedPrice(): String =
-    NumberFormat.getCurrencyInstance().format(itemPrice)
+fun Transaction.getFormattedPrice(): String =
+    NumberFormat.getCurrencyInstance().format(transactionPrice)

@@ -1,27 +1,29 @@
 package com.github.aptemkov.expensestracker
 
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
+import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.aptemkov.expensestracker.databinding.FragmentAddItemBinding
-import com.github.aptemkov.expensestracker.domain.Item
-import com.github.aptemkov.expensestracker.domain.Item.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.Item.Companion.INCOME
+import com.github.aptemkov.expensestracker.databinding.FragmentAddTransactionBinding
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
 import java.util.*
 
 
-class AddItemFragment : Fragment() {
+class AddTransactionFragment : Fragment() {
 
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
-    private var _binding: FragmentAddItemBinding? = null
+    private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
+    private lateinit var firstCategory: String
 
     private val viewModel: ExpensesViewModel by activityViewModels {
         ExpensesViewModelFactory(
@@ -29,10 +31,10 @@ class AddItemFragment : Fragment() {
         )
     }
 
-    lateinit var item: Item
+    lateinit var transaction: Transaction
     private var date: Long? = null
-    private var transactionType = "expense"
-    //private var category = ""
+    private var transactionType = EXPENSE
+    private var category: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,7 @@ class AddItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddItemBinding.inflate(inflater, container, false)
+        _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,33 +55,50 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
 
+        initViews()
+
+
+
         val expenseCategories = resources.getStringArray(R.array.expense_categories)
         val incomeCategories = resources.getStringArray(R.array.income_categories)
 
+        var prevView: View? = null
         val adapter = CategoryAdapter(object : CategoryActionListener {
-            override fun onClick(category: String) {
-                binding.itemCategory.setText(category, TextView.BufferType.SPANNABLE)
+            override fun onClick(newCategory: String, v: View?) {
+                category = newCategory
+                //TODO(FIX selection)
+                if(prevView != null) {
+                    prevView?.elevation = 4F
+                    prevView?.alpha = 1F
+                    prevView?.isClickable = true
+                }
+                prevView = v
+                prevView?.elevation = 0F
+                prevView?.alpha = 0.5F
+                prevView?.isClickable = false
             }
         })
         val layoutManager =
             LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         adapter.categories = expenseCategories.toList()
+        firstCategory = adapter.categories.first()
         binding.categoriesRv.apply {
             this.adapter = adapter
             this.layoutManager = layoutManager
         }
 
-
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radiobutton_expense -> {
                     adapter.categories = expenseCategories.toList()
+                    firstCategory = adapter.categories.first()
                     binding.categoriesRv.adapter = adapter
                     binding.itemIsCompulsory.visibility = View.VISIBLE
                     transactionType = EXPENSE
                 }
                 R.id.radiobutton_income -> {
                     adapter.categories = incomeCategories.toList()
+                    firstCategory = adapter.categories.first()
                     binding.categoriesRv.adapter = adapter
                     binding.itemIsCompulsory.visibility = View.GONE
                     transactionType = INCOME
@@ -87,22 +106,29 @@ class AddItemFragment : Fragment() {
             }
         }
 
-
-
-
         if (id > 0) {
             viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
-                item = selectedItem
-                bind(item)
+                transaction = selectedItem
+                bind(transaction)
                 binding.radioGroup.check(
-                    if(item.transactionType == EXPENSE) R.id.radiobutton_expense
+                    if(transaction.transactionType == EXPENSE) R.id.radiobutton_expense
                     else R.id.radiobutton_income
                 )
             }
 
         } else {
+            binding.radioGroup.check(R.id.radiobutton_expense)
             binding.saveAction.setOnClickListener {
                 addNewItem()
+            }
+        }
+    }
+
+    private fun initViews() {
+        binding.itemIsCompulsory.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked) {
+                true -> binding.itemIsCompulsory.text = getString(R.string.compulsory_expense)
+                false -> binding.itemIsCompulsory.text = getString(R.string.incompulsory_expense)
             }
         }
 
@@ -111,8 +137,6 @@ class AddItemFragment : Fragment() {
             calendar.set(year, month, dayOfMonth)
             date = calendar.timeInMillis
         }
-
-
     }
 
     override fun onDestroyView() {
@@ -124,19 +148,20 @@ class AddItemFragment : Fragment() {
         _binding = null
     }
 
-    private fun bind(item: Item) {
+    private fun bind(transaction: Transaction) {
         binding.apply {
-            itemCategory.setText(item.itemCategory, TextView.BufferType.SPANNABLE)
-            itemPrice.setText(item.itemPrice.toString())
-            itemIsCompulsory.isChecked = item.isCompulsory
-            calendarView.date = item.date
+            category = transaction.transactionCategory
+            itemPrice.setText(transaction.transactionPrice.toString())
+            itemIsCompulsory.isChecked = transaction.isCompulsory
+            calendarView.date = transaction.date
             saveAction.setOnClickListener { updateItem() }
+            binding.itemDescription.setText(transaction.transactionDescription)
         }
     }
 
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
-            binding.itemCategory.text.toString(),
+            category ?: firstCategory,
             binding.itemPrice.text.toString(),
             if (date != null) date.toString() else binding.calendarView.date.toString()
         )
@@ -146,14 +171,14 @@ class AddItemFragment : Fragment() {
         if (isEntryValid()) {
             viewModel.addNewItem(
                 transactionType,
-                binding.itemCategory.text.toString(),
+                category ?: firstCategory,
                 binding.itemPrice.text.toString(),
                 binding.itemIsCompulsory.isChecked.toString(),
-                if (date != null) date.toString() else binding.calendarView.date.toString()
+                if (date != null) date.toString() else binding.calendarView.date.toString(),
+                binding.itemDescription.text.toString()
             )
             goBack()
         } else {
-            binding.itemCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }
@@ -163,14 +188,15 @@ class AddItemFragment : Fragment() {
             viewModel.updateItem(
                 this.navigationArgs.itemId,
                 transactionType,
-                this.binding.itemCategory.text.toString(),
+                category ?: firstCategory,
                 this.binding.itemPrice.text.toString(),
                 this.binding.itemIsCompulsory.isChecked.toString(),
-                if (date != null) date.toString() else binding.calendarView.date.toString()
+                if (date != null) date.toString() else binding.calendarView.date.toString(),
+                binding.itemDescription.text.toString()
             )
             goBack()
         } else {
-            binding.itemCategory.error = getString(R.string.InputError)
+            //binding.transactionCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }

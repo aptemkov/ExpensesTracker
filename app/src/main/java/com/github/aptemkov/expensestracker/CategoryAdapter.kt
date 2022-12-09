@@ -1,25 +1,26 @@
 package com.github.aptemkov.expensestracker
 
-import android.net.wifi.p2p.WifiP2pManager.ActionListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.CategoryItemBinding
-import com.github.aptemkov.expensestracker.domain.Item
+import com.github.mikephil.charting.utils.Utils.init
+
 
 interface CategoryActionListener {
-    fun onClick(category: String)
+    fun onClick(category: String, v:View?)
 }
 
 class CategoryAdapter(private val actionListener: CategoryActionListener)
     : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(), View.OnClickListener {
 
+    var selectedItemPos = -1
+    var lastItemSelectedPos = -1
+
     override fun onClick(v: View?) {
         val category = v?.tag as String
-        actionListener.onClick(category)
+        actionListener.onClick(category, v)
     }
 
     var categories: List<String> = emptyList()
@@ -38,6 +39,12 @@ class CategoryAdapter(private val actionListener: CategoryActionListener)
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val current = categories[position]
+
+
+        //TODO(FIX selection)
+        holder.binding.root.elevation = 4F
+        holder.binding.root.alpha = 1F
+
         holder.itemView.tag = current
         holder.binding.categoryName.text = current
     }
@@ -47,16 +54,5 @@ class CategoryAdapter(private val actionListener: CategoryActionListener)
     class CategoryViewHolder(val binding: CategoryItemBinding)
         : RecyclerView.ViewHolder(binding.root)
 
-    companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem === newItem
-            }
-
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem.itemCategory == newItem.itemCategory
-            }
-        }
-    }
 
 }
