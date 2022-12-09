@@ -1,6 +1,5 @@
 package com.github.aptemkov.expensestracker
 
-import android.content.res.Resources.Theme
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -18,14 +17,13 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
-import kotlin.math.absoluteValue
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by activityViewModels {
+    private val viewModel: ChartsViewModel by activityViewModels {
         HomeViewModelFactory(
             (activity?.application as ExpensesApplication).database.itemDao()
         )
@@ -53,23 +51,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewModel.allItems.observe(this.viewLifecycleOwner) { items->
-            items.let {
+            with(viewModel) {
+                getFormattedWithCurrencyValue(viewModel.getTotalExpense(items))
+                    .also { binding.tvTotalExpense.text = it }
 
-                with(viewModel) {
-                    getFormattedWithCurrencyValue(viewModel.getTotalExpense(items))
-                        .also { binding.tvTotalExpense.text = it }
+                getFormattedWithCurrencyValue(viewModel.getTotalCouldSave(items))
+                    .also { binding.tvCouldSave.text = it }
 
-                    getFormattedWithCurrencyValue(viewModel.getTotalCouldSave(items))
-                        .also { binding.tvCouldSave.text = it }
+                getFormattedWithCurrencyValue(viewModel.getTotalIncome(items))
+                    .also { binding.tvTotalIncome.text = it }
 
-                    getFormattedWithCurrencyValue(viewModel.getTotalIncome(items))
-                        .also { binding.tvTotalIncome.text = it }
+                getFormattedWithCurrencyValue(viewModel.getTotalBalance(items))
+                    .also { binding.tvTotalBalance.text = it }
 
-                    getFormattedWithCurrencyValue(viewModel.getTotalBalance(items))
-                        .also { binding.tvTotalBalance.text = it }
-
-                    initPieChart(getMapForPieChart(items))
-                }
+                initPieChart(getMapForPieChart(items))
             }
         }
     }
