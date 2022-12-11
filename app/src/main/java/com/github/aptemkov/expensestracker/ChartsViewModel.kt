@@ -42,7 +42,7 @@ class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() 
     fun getMapForCubicChart(list: List<Transaction>): List<Pair<Float, Float>> {
         val pair = mutableListOf<Pair<Float, Float>>()
         for((index, transaction) in list.withIndex()) {
-            pair.add(Pair(index * 100f, transaction.transactionPrice.toFloat()))
+            pair.add(Pair(index.toFloat(), transaction.transactionPrice.toFloat()))
         }
         return pair.toList()
     }

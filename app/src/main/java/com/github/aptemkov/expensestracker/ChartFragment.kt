@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.github.aptemkov.expensestracker.databinding.FragmentChartBinding
 import com.github.aptemkov.expensestracker.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
@@ -44,9 +46,9 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         viewModel.allItems.observe(this.viewLifecycleOwner) {
             it.let {
                 initPieChart(viewModel.getMapForPieChart(it))
+                initCubicChart(viewModel.getMapForCubicChart(it))
             }
         }
-        viewModel
     }
 
     private fun initViews() {
@@ -61,20 +63,47 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
     private fun initCubicChart(pairsForCubic: List<Pair<Float, Float>>) {
         with(binding.cubicChart) {
-            //var lineData = pairsForCubic
-            var lineDataSet = LineDataSet(pairsForCubic.map { Entry(it.first, it.second) }, "fjerfhf")
-            lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+            val lineDataSet = LineDataSet(pairsForCubic.map { Entry(it.first, it.second) }, null)
+            with(lineDataSet) {
+                lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+                lineDataSet.color = resources.getColor(R.color.dynamic_primary)
+                lineDataSet.valueTextColor = resources.getColor(R.color.dynamic_black_white)
+                setDrawValues(false)
+                lineDataSet.valueTextSize = 12f
+                setDrawFilled(true)
+                fillDrawable = activity?.applicationContext?.let {
+                    ContextCompat.getDrawable(it, R.drawable.bg_spark_line)
+                }
+
+                setDrawCircles(false)
+                isHighlightEnabled = true
+                setDrawHighlightIndicators(false)
+                lineWidth = 2f
+            }
             data = LineData(lineDataSet)
-            lineDataSet.color = resources.getColor(R.color.dynamic_black_white)
-            lineDataSet.valueTextColor = resources.getColor(R.color.dynamic_black_white)
-            lineDataSet.valueTextSize = 14f
-            lineDataSet.setDrawFilled(true)
+
+
+            animateXY(1400, 1400)
+
+            isScaleXEnabled = false
+            isScaleYEnabled = false
+            defaultFocusHighlightEnabled = false
+            description.isEnabled = false
+            legend.isEnabled = false
+
+            axisLeft.isEnabled = false
+            axisLeft.axisMaximum = pairsForCubic.maxBy { it.second }.second * 1.2f
+            axisRight.isEnabled = false
+            xAxis.isEnabled = false
+
+            setVisibleXRangeMaximum(pairsForCubic.maxBy { it.first }.first / 2)
+            setDrawGridBackground(false)
+
+
         }
     }
 
     private fun initPieChart(mapForPieChart: Map<String, Double>) {
-
-
         val mainColor = resources.getColor(R.color.dynamic_black_white)
         with(binding.pieChart) {
             // on below line we are setting user percent value,
