@@ -6,5 +6,5 @@
 
     <color name="dynamic_white_black">#000000</color>
     <color name="dynamic_black_white">#FFFFFF</color>
-
+    <color name="dynamic_primary">@color/md_theme_dark_primary</color>
 </resources>

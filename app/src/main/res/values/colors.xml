@@ -78,11 +78,12 @@
     <color name="pie_chart_color15">#ffcdd2</color>
     <color name="pie_chart_color16">#d7ccc8</color>
     <color name="pie_chart_color17">#cfd8dc</color>
+
     <color name="black">#000000</color>
     <color name="invisible">#00000000</color>
     <color name="category_background">#E4ECE6</color>
-    <color name="category_left">#B9F6CA</color>
 
+    <color name="dynamic_primary">@color/md_theme_light_primary</color>
     <color name="dynamic_main_color">#1C1B1F</color>
     <color name="dynamic_main_color_reversed">#E6E1E5</color>
 

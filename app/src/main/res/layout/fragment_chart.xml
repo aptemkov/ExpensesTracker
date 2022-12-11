@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ChartFragment">
+        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_pie_chart"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="12dp"
-            app:cardElevation="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeWidth="0dp">
+            android:orientation="vertical"
+            tools:context=".ChartFragment">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_cubic_chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="12dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="0dp">
 
-                <TextView
-                    android:id="@+id/pie_chart_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="34dp"
-                    android:text="@string/expenses_by_category"
-                    android:textAllCaps="true"
-                    android:textSize="12sp" />
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pie_chart"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:layout_margin="16dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/cubic_chart_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="34dp"
+                        android:text="Cubic Chart"
+                        android:textAllCaps="true"
+                        android:textSize="12sp" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_cubic_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="12dp"
-            app:cardElevation="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_pie_chart"
-            app:strokeWidth="0dp">
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/cubic_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:layout_margin="16dp" />
 
-            <LinearLayout
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="12dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="0dp">
 
-                <TextView
-                    android:id="@+id/cubic_chart_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="34dp"
-                    android:text="Cubic Chart"
-                    android:textAllCaps="true"
-                    android:textSize="12sp" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/cubic_chart"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:layout_margin="16dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/pie_chart_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="34dp"
+                        android:text="@string/expenses_by_category"
+                        android:textAllCaps="true"
+                        android:textSize="12sp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/add_new_item"
-            android:src="@android:drawable/ic_input_add"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pie_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:layout_margin="16dp" />
 
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/add_new_item"
+        android:src="@android:drawable/ic_input_add"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
