@@ -44,6 +44,7 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="description_hint">Description</string>
+    <string name="expenses_amount">Expenses amount</string>
 
 
     <string-array name="expense_categories">

@@ -46,7 +46,11 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         viewModel.allItems.observe(this.viewLifecycleOwner) {
             it.let {
                 initPieChart(viewModel.getMapForPieChart(it))
-                initCubicChart(viewModel.getMapForCubicChart(it))
+            }
+        }
+        viewModel.allExpenses.observe(this.viewLifecycleOwner) {
+            it.let {
+                initCubicChart(viewModel.getMapForCubicChart(it.reversed()))
             }
         }
     }
@@ -91,17 +95,22 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
             description.isEnabled = false
             legend.isEnabled = false
 
-            axisLeft.isEnabled = false
-            axisLeft.axisMaximum = pairsForCubic.maxBy { it.second }.second * 1.2f
+            axisLeft.apply {
+                isEnabled = true
+                isGranularityEnabled = true
+                granularity = 10f
+                axisMaximum = pairsForCubic.maxBy { it.second }.second * 1.2f
+            }
             axisRight.isEnabled = false
             xAxis.isEnabled = false
 
             setVisibleXRangeMaximum(pairsForCubic.maxBy { it.first }.first / 2)
             setDrawGridBackground(false)
-
-
         }
+
+
     }
+
 
     private fun initPieChart(mapForPieChart: Map<String, Double>) {
         val mainColor = resources.getColor(R.color.dynamic_black_white)

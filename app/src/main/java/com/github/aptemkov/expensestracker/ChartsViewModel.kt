@@ -5,15 +5,21 @@ import com.github.aptemkov.expensestracker.domain.transaction.Transaction
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
 import com.github.aptemkov.expensestracker.domain.transaction.TransactionDao
+import kotlinx.coroutines.flow.Flow
 import java.text.NumberFormat
 
 
 class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() {
 
     val allItems: LiveData<List<Transaction>> = transactionDao.getItems().asLiveData()
+    var allExpenses: LiveData<List<Transaction>> = getByType(EXPENSE).asLiveData()
 
     fun getTotalBalance(list: List<Transaction>): Double {
         return getTotalIncome(list) - getTotalExpense(list)
+    }
+
+    private fun getByType(type: String): Flow<List<Transaction>> {
+        return transactionDao.getItemsByType(type)
     }
 
     fun getTotalExpense(list: List<Transaction>): Double {
