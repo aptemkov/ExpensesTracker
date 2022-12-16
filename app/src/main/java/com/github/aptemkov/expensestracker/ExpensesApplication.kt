@@ -19,17 +19,15 @@ class ExpensesApplication : Application() {
     }
 
     private fun createNotificationChannel() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CounterNotificationService.COUNTER_CHANNEL_ID,
-                "Counter",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            channel.description = "Used for the increment counter notifications"
+        val channel = NotificationChannel(
+            CounterNotificationService.COUNTER_CHANNEL_ID,
+            "Counter",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+        channel.description = "Used for the increment counter notifications"
 
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
 }

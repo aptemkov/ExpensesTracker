@@ -8,6 +8,6 @@ class CounterNotificationReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
         val service = CounterNotificationService(context)
-        service.showNotification(++Counter.value)
+        service.showNotification()
     }
 }

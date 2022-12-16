@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     fun setNotifications() {
 
-
         val alarmIntent = Intent(this, CounterNotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
 
@@ -91,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
-        calendar[Calendar.HOUR_OF_DAY] = 9
+        calendar[Calendar.HOUR_OF_DAY] = 20
         calendar[Calendar.MINUTE] = 0
         calendar[Calendar.SECOND] = 0
 
