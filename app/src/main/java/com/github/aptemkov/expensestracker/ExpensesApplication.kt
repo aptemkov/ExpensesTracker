@@ -4,10 +4,8 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
-import android.os.Build.VERSION
 import com.github.aptemkov.expensestracker.domain.transaction.TransactionRoomDatabase
-import com.github.aptemkov.expensestracker.notification.CounterNotificationService
+import com.github.aptemkov.expensestracker.notification.ReminderNotificationService
 
 class ExpensesApplication : Application() {
     val database: TransactionRoomDatabase by lazy { TransactionRoomDatabase.getDatabase(this)}
@@ -20,7 +18,7 @@ class ExpensesApplication : Application() {
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
-            CounterNotificationService.COUNTER_CHANNEL_ID,
+            ReminderNotificationService.REMINDER_CHANNEL_ID,
             "Counter",
             NotificationManager.IMPORTANCE_DEFAULT
         )

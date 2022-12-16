@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
                 else -> showBottomNav()
             }
         }
-        val service = CounterNotificationService(applicationContext)
+        val service = ReminderNotificationService(applicationContext)
         // service.showNotification(Counter.value)
-        setNotifications()
+        setNotification()
     }
 
 
@@ -80,9 +80,9 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "SOON", Toast.LENGTH_SHORT).show()
     }
 
-    fun setNotifications() {
+    fun setNotification() {
 
-        val alarmIntent = Intent(this, CounterNotificationReceiver::class.java)
+        val alarmIntent = Intent(this, ReminderNotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager

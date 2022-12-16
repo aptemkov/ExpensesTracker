@@ -4,10 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 
-class CounterNotificationReceiver: BroadcastReceiver() {
-
+class ReminderNotificationReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
-        val service = CounterNotificationService(context)
+        val service = ReminderNotificationService(context)
         service.showNotification()
     }
 }
