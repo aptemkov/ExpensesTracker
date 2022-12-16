@@ -1,9 +1,9 @@
 package com.github.aptemkov.expensestracker
 
+import android.app.*
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -12,6 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.aptemkov.expensestracker.databinding.ActivityMainBinding
+import com.github.aptemkov.expensestracker.notification.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -20,8 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
-
-        //supportActionBar?.hide()
 
         navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
@@ -43,18 +43,20 @@ class MainActivity : AppCompatActivity() {
             */
         }
 
-            navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.addItemFragment -> hideBottomNav(View.GONE)
                 R.id.itemDetailFragment -> hideBottomNav(View.INVISIBLE)
                 else -> showBottomNav()
             }
         }
+        val service = CounterNotificationService(applicationContext)
+        // service.showNotification(Counter.value)
+        setNotifications()
     }
 
 
     private fun showBottomNav() {
-        var a = View.VISIBLE
         binding.bottomAppBar.visibility = View.VISIBLE
         //supportActionBar?.hide()
     }
@@ -67,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
     //TODO(fix launching adding fragment by pressing floating action button)
     fun openAddingFragment(view: View) {
         /*supportFragmentManager
@@ -77,5 +80,27 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "SOON", Toast.LENGTH_SHORT).show()
     }
 
+    fun setNotifications() {
+
+        val alarmIntent = Intent(this, CounterNotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar[Calendar.HOUR_OF_DAY] = 20
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
+
+    }
 
 }

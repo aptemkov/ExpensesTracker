@@ -39,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="34dp"
-                        android:text="Cubic Chart"
+                        android:text="@string/expenses_amount"
                         android:textAllCaps="true"
                         android:textSize="12sp" />
 
