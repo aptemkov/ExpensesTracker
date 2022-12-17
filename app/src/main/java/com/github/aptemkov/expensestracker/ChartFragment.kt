@@ -96,6 +96,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
             legend.isEnabled = false
 
             axisLeft.apply {
+                textColor = resources.getColor(R.color.dynamic_black_white)
                 isEnabled = true
                 isGranularityEnabled = true
                 granularity = 10f
