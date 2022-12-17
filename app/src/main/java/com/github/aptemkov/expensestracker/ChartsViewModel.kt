@@ -1,5 +1,6 @@
 package com.github.aptemkov.expensestracker
 
+import android.content.Context
 import androidx.lifecycle.*
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
@@ -7,6 +8,7 @@ import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Compan
 import com.github.aptemkov.expensestracker.domain.transaction.TransactionDao
 import kotlinx.coroutines.flow.Flow
 import java.text.NumberFormat
+import kotlin.coroutines.coroutineContext
 
 
 class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() {
@@ -47,7 +49,7 @@ class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() 
 
     fun getMapForCubicChart(list: List<Transaction>): List<Pair<Float, Float>> {
         val pair = mutableListOf<Pair<Float, Float>>()
-        for((index, transaction) in list.withIndex()) {
+        for ((index, transaction) in list.withIndex()) {
             pair.add(Pair(index.toFloat(), transaction.transactionPrice.toFloat()))
         }
         return pair.toList()
@@ -58,15 +60,39 @@ class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() 
 
         for (transaction in list.filter { it.transactionType == EXPENSE }) {
             map[transaction.transactionCategory] =
-                map.getOrDefault(transaction.transactionCategory, 0.0) + transaction.transactionPrice
+                map.getOrDefault(transaction.transactionCategory,
+                    0.0) + transaction.transactionPrice
         }
         return map.toMap()
+    }
+
+    fun getCompulsoryAndNotCompulsory(
+        context: Context,
+        list: List<Transaction>,
+    ): Map<String, Double> {
+        val income = list.filter { it.transactionType == INCOME }.sumOf { it.transactionPrice }
+
+        val compulsorySum = list.filter { it.transactionType == EXPENSE && it.isCompulsory }
+            .sumOf { it.transactionPrice }
+
+        val notCompulsorySum = list.filter { it.transactionType == EXPENSE && !it.isCompulsory }
+            .sumOf { it.transactionPrice }
+
+        val remainingBalance =
+            if (income - compulsorySum - notCompulsorySum > 0)
+                income - compulsorySum - notCompulsorySum
+            else 0.0
+        return mapOf(
+            context.getString(R.string.compulsory) to compulsorySum,
+            context.getString(R.string.notCompulsory) to notCompulsorySum,
+            context.getString(R.string.remaining_balance) to remainingBalance
+        )
     }
 }
 
 
 class HomeViewModelFactory(private val transactionDao: TransactionDao) : ViewModelProvider.Factory {
-    override fun <T : ViewModel>                             create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ChartsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return ChartsViewModel(transactionDao) as T

@@ -47,6 +47,8 @@
     <string name="expenses_amount">Expenses amount</string>
     <string name="dear_user">Dear user!</string>
     <string name="dont_forget_remind">Don\'t forget about adding transactions</string>
+    <string name="remaining_balance">Remaining balance</string>
+    <string name="total_expenses">Total expenses</string>
 
 
     <string-array name="expense_categories">

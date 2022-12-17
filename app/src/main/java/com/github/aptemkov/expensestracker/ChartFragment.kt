@@ -129,8 +129,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
             setHoleColor(Color.TRANSPARENT)
 
             // on below line we are setting circle color and alpha
-            setTransparentCircleColor(Color.WHITE)
-            setTransparentCircleAlpha(110)
+            setTransparentCircleColor(mainColor)
+            setTransparentCircleAlpha(0)
 
             // on below line we are setting hole radius
             holeRadius = 58f

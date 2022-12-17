@@ -247,7 +247,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="34dp"
-                        android:text="@string/expenses_by_category"
+                        android:text="@string/total_expenses"
                         android:textAllCaps="true"
                         android:textSize="12sp" />
 

@@ -1,5 +1,6 @@
 package com.github.aptemkov.expensestracker
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -32,7 +33,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             this.findNavController().navigate(action)
         }
 
-        viewModel.allItems.observe(this.viewLifecycleOwner) { items->
+        viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
             with(viewModel) {
                 getFormattedWithCurrencyValue(viewModel.getTotalExpense(items))
                     .also { binding.tvTotalExpense.text = it }
@@ -64,7 +65,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 getFormattedWithCurrencyValue(viewModel.getTotalBalance(items))
                     .also { binding.tvTotalBalance.text = it }
 
-                initPieChart(getMapForPieChart(items))
+                initPieChart(getCompulsoryAndNotCompulsory(requireActivity().applicationContext,
+                    items))
             }
         }
     }
@@ -93,8 +95,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setHoleColor(Color.TRANSPARENT)
 
             // on below line we are setting circle color and alpha
-            setTransparentCircleColor(Color.WHITE)
-            setTransparentCircleAlpha(110)
+            setTransparentCircleColor(mainColor)
+            setTransparentCircleAlpha(0)
 
             // on below line we are setting hole radius
             holeRadius = 58f
@@ -102,7 +104,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // on below line we are setting center text
             setDrawCenterText(true)
-            centerText = "SOON"
             setCenterTextColor(mainColor)
 
             // on below line we are setting
@@ -131,7 +132,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // on below line we are creating array list and
             // adding data to it to display in pie chart
-            val entries: List<PieEntry> = mapForPieChart.map {PieEntry(it.value.toFloat(), it.key)}
+            val entries: List<PieEntry> =
+                mapForPieChart.map { PieEntry(it.value.toFloat(), it.key) }
 
             // on below line we are setting pie data set
             val dataSet = PieDataSet(entries, "")
@@ -146,23 +148,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // add a lot of colors to list
             val colors: List<Int> = listOf(
-            resources.getColor(R.color.pie_chart_color1),
-            resources.getColor(R.color.pie_chart_color2),
-            resources.getColor(R.color.pie_chart_color3),
-            resources.getColor(R.color.pie_chart_color4),
-            resources.getColor(R.color.pie_chart_color5),
-            resources.getColor(R.color.pie_chart_color6),
-            resources.getColor(R.color.pie_chart_color7),
-            resources.getColor(R.color.pie_chart_color8),
-            resources.getColor(R.color.pie_chart_color9),
-            resources.getColor(R.color.pie_chart_color10),
-            resources.getColor(R.color.pie_chart_color11),
-            resources.getColor(R.color.pie_chart_color12),
-            resources.getColor(R.color.pie_chart_color13),
-            resources.getColor(R.color.pie_chart_color14),
-            resources.getColor(R.color.pie_chart_color15),
-            resources.getColor(R.color.pie_chart_color16),
-            resources.getColor(R.color.pie_chart_color17),
+
+                resources.getColor(R.color.expense_color),
+                resources.getColor(R.color.could_save_color),
+                resources.getColor(R.color.income_color),
+
+                resources.getColor(R.color.pie_chart_color14),
+
+                resources.getColor(R.color.pie_chart_color1),
+
+                resources.getColor(R.color.pie_chart_color5),
             )
             // on below line we are setting colors.
             dataSet.colors = colors
