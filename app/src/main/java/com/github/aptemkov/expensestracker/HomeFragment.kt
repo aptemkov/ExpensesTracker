@@ -189,7 +189,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return when (item.itemId) {
             R.id.action_ui_theme -> {
                 item.isChecked = !item.isChecked
-                Toast.makeText(activity?.applicationContext, "${item.isChecked}", Toast.LENGTH_SHORT).show()
                 setUITheme(item, item.isChecked)
                 true
             }
@@ -199,7 +198,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun setUITheme(item: MenuItem, isChecked: Boolean) {
-        if (item.isChecked) {
+        if (isChecked) {
             viewModel.setDarkMode(true)
             item.setIcon(R.drawable.ic_dark)
         } else {

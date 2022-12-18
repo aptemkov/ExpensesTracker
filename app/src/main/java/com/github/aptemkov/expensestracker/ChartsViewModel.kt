@@ -1,6 +1,7 @@
 package com.github.aptemkov.expensestracker
 
 import android.content.Context
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.*
