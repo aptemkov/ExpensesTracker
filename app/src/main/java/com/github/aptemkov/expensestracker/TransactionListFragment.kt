@@ -68,12 +68,13 @@ class TransactionListFragment : Fragment() {
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0 && binding.floatingActionButton.isShown) binding.floatingActionButton.hide()
+                if (dy < 0 && !binding.floatingActionButton.isShown) binding.floatingActionButton.show()
             }
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            /*override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) binding.floatingActionButton.show()
                 super.onScrollStateChanged(recyclerView, newState)
-            }
+            }*/
         })
     }
 

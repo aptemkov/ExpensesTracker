@@ -1,6 +1,9 @@
 package com.github.aptemkov.expensestracker
 
 import android.content.Context
+import android.content.res.Resources
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.*
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
@@ -86,6 +89,19 @@ class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() 
             context.getString(R.string.compulsory) to compulsorySum,
             context.getString(R.string.notCompulsory) to notCompulsorySum,
             context.getString(R.string.remaining_balance) to remainingBalance
+        )
+    }
+
+    fun setDarkMode(nightTheme: Boolean) {
+        AppCompatDelegate.setDefaultNightMode(
+            when (nightTheme) {
+                true -> {
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+                false -> {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                }
+            }
         )
     }
 }

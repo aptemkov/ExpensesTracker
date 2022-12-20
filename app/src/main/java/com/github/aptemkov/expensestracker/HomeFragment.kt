@@ -1,12 +1,10 @@
 package com.github.aptemkov.expensestracker
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -28,6 +26,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         HomeViewModelFactory(
             (activity?.application as ExpensesApplication).database.itemDao()
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -175,7 +178,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // loading chart
             invalidate()
+        }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_ui_theme -> {
+                item.isChecked = !item.isChecked
+                setUITheme(item, item.isChecked)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    private fun setUITheme(item: MenuItem, isChecked: Boolean) {
+        if (isChecked) {
+            viewModel.setDarkMode(true)
+            item.setIcon(R.drawable.ic_dark)
+        } else {
+            viewModel.setDarkMode(false)
+            item.setIcon(R.drawable.ic_light)
         }
     }
 
