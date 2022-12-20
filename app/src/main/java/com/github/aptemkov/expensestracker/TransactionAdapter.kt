@@ -12,6 +12,7 @@ import com.github.aptemkov.expensestracker.domain.transaction.Transaction
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
 import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
 import com.github.aptemkov.expensestracker.domain.transaction.getFormattedPrice
+import java.text.SimpleDateFormat
 
 class TransactionAdapter(private val listener: Listener) :
     ListAdapter<Transaction, TransactionAdapter.ItemViewHolder>(DiffCallback), View.OnClickListener {
@@ -43,6 +44,10 @@ class TransactionAdapter(private val listener: Listener) :
 
                 itemCategory.text = transaction.transactionCategory
                 itemDescription.text = transaction.transactionDescription
+
+                val simpleDateFormat = SimpleDateFormat("HH:mm ")
+                itemDate.text = simpleDateFormat.format(transaction.date)
+
                 when (transaction.transactionType) {
                     EXPENSE -> {
                         val color: Int = when (transaction.isCompulsory) {

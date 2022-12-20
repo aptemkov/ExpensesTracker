@@ -50,6 +50,7 @@
     <string name="remaining_balance">Remaining balance</string>
     <string name="total_expenses">Total expenses</string>
     <string name="ui_theme">UI theme</string>
+    <string name="spend_frequency">Spend frequency</string>
 
 
     <string-array name="expense_categories">
