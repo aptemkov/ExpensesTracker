@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 class ExpensesViewModel(private val transactionDao: TransactionDao) : ViewModel() {
 
     var allTransactions: LiveData<List<Transaction>> = transactionDao.getItems().asLiveData()
+
+
     var allIncomes: LiveData<List<Transaction>> = getByType(INCOME).asLiveData()
     var allExpenses: LiveData<List<Transaction>> = getByType(EXPENSE).asLiveData()
 
@@ -142,6 +144,20 @@ class ExpensesViewModel(private val transactionDao: TransactionDao) : ViewModel(
             EXPENSE -> allExpenses
             else -> allTransactions
         }
+    }
+
+    fun correctDataTitle(data: List<Transaction>?): MutableList<Transaction> {
+        var tempData = -1L
+        val newList: MutableList<Transaction> = mutableListOf()
+        data?.let {
+            for (item in data) {
+                if (item.date / 86400000 * 86400000 != tempData) {
+                    newList.add(item.copy(isFirstInDay = true))
+                    tempData = item.date / 86400000 * 86400000
+                } else newList.add(item.copy())
+            }
+        }
+        return newList
     }
 }
 

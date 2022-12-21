@@ -45,8 +45,14 @@ class TransactionAdapter(private val listener: Listener) :
                 itemCategory.text = transaction.transactionCategory
                 itemDescription.text = transaction.transactionDescription
 
-                val simpleDateFormat = SimpleDateFormat("HH:mm ")
-                itemDate.text = simpleDateFormat.format(transaction.date)
+                val simpleTimeFormat = SimpleDateFormat("HH:mm ")
+                itemDate.text = simpleTimeFormat.format(transaction.date)
+
+                val simpleDayFormat = SimpleDateFormat("EEEE, dd MMMM ")
+                title.text = simpleDayFormat.format(transaction.date)
+
+                if (transaction.isFirstInDay) title.visibility = View.VISIBLE
+                else title.visibility = View.GONE
 
                 when (transaction.transactionType) {
                     EXPENSE -> {

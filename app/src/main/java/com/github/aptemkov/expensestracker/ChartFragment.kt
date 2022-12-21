@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.SCROLLBAR_POSITION_RIGHT
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -105,7 +106,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
             axisRight.isEnabled = false
             xAxis.isEnabled = false
 
-            setVisibleXRangeMaximum(pairsForCubic.maxBy { it.first }.first / 2)
+            //setVisibleXRangeMaximum(pairsForCubic.maxBy { it.first }.first / 2)
             setDrawGridBackground(false)
         }
 

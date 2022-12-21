@@ -47,24 +47,11 @@ class TransactionListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
+        initRV()
+    }
 
-        adapter = TransactionAdapter(object : TransactionAdapter.Listener {
-            override fun onDetailInfo(itemId: Int) {
-                val action =
-                    TransactionListFragmentDirections.actionNavigationListToItemDetailFragment2(
-                        itemId
-                    )
-                findNavController().navigate(action)
-            }
-        })
-        binding.recyclerView.adapter = adapter
-
-        viewModel.allIncomes.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
+    private fun initRV() {
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0 && binding.floatingActionButton.isShown) binding.floatingActionButton.hide()
@@ -76,7 +63,9 @@ class TransactionListFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }*/
         })
+        initRVAdapter()
     }
+
 
     private fun initViews() {
         binding.floatingActionButton.setOnClickListener {
@@ -87,6 +76,19 @@ class TransactionListFragment : Fragment() {
             this.findNavController().navigate(action)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
+    }
+
+    private fun initRVAdapter() {
+        adapter = TransactionAdapter(object : TransactionAdapter.Listener {
+            override fun onDetailInfo(itemId: Int) {
+                val action =
+                    TransactionListFragmentDirections.actionNavigationListToItemDetailFragment2(
+                        itemId
+                    )
+                findNavController().navigate(action)
+            }
+        })
+        binding.recyclerView.adapter = adapter
     }
 
 
@@ -134,9 +136,13 @@ class TransactionListFragment : Fragment() {
         }
     }
 
+    private fun correctDataTitle(data: List<Transaction>?): MutableList<Transaction>? {
+        return viewModel.correctDataTitle(data)
+    }
+
     private fun submitList(newList: LiveData<List<Transaction>>) {
         newList.observe(viewLifecycleOwner) {
-            adapter.submitList(newList.value)
+            adapter.submitList(correctDataTitle(newList.value))
         }
     }
 
