@@ -1,16 +1,16 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.list
 
 import androidx.lifecycle.*
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
-import com.github.aptemkov.expensestracker.domain.transaction.TransactionDao
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.data.transaction.TransactionDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
-class ExpensesViewModel(private val transactionDao: TransactionDao) : ViewModel() {
+class TransactionsViewModel(private val transactionDao: TransactionDao) : ViewModel() {
 
     var allTransactions: LiveData<List<Transaction>> = transactionDao.getItems().asLiveData()
 
@@ -164,9 +164,9 @@ class ExpensesViewModel(private val transactionDao: TransactionDao) : ViewModel(
 
 class ExpensesViewModelFactory(private val transactionDao: TransactionDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ExpensesViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(TransactionsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ExpensesViewModel(transactionDao) as T
+            return TransactionsViewModel(transactionDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

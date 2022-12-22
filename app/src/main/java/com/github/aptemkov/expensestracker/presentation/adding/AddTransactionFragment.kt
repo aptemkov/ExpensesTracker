@@ -1,20 +1,23 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.adding
 
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.aptemkov.expensestracker.R
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
 import com.github.aptemkov.expensestracker.databinding.FragmentAddTransactionBinding
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.presentation.*
+import com.github.aptemkov.expensestracker.presentation.details.ItemDetailFragmentArgs
+import com.github.aptemkov.expensestracker.presentation.list.ExpensesViewModelFactory
+import com.github.aptemkov.expensestracker.presentation.list.TransactionsViewModel
 import java.util.*
 
 
@@ -25,7 +28,7 @@ class AddTransactionFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var firstCategory: String
 
-    private val viewModel: ExpensesViewModel by activityViewModels {
+    private val viewModel: TransactionsViewModel by activityViewModels {
         ExpensesViewModelFactory(
             (activity?.application as ExpensesApplication).database.itemDao()
         )
@@ -44,7 +47,7 @@ class AddTransactionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
         return binding.root
@@ -58,7 +61,6 @@ class AddTransactionFragment : Fragment() {
         initViews()
 
 
-
         val expenseCategories = resources.getStringArray(R.array.expense_categories)
         val incomeCategories = resources.getStringArray(R.array.income_categories)
 
@@ -67,7 +69,7 @@ class AddTransactionFragment : Fragment() {
             override fun onClick(newCategory: String, v: View?) {
                 category = newCategory
                 //TODO(FIX selection)
-                if(prevView != null) {
+                if (prevView != null) {
                     prevView?.elevation = 4F
                     prevView?.alpha = 1F
                     prevView?.isClickable = true
@@ -111,7 +113,7 @@ class AddTransactionFragment : Fragment() {
                 transaction = selectedItem
                 bind(transaction)
                 binding.radioGroup.check(
-                    if(transaction.transactionType == EXPENSE) R.id.radiobutton_expense
+                    if (transaction.transactionType == EXPENSE) R.id.radiobutton_expense
                     else R.id.radiobutton_income
                 )
             }
@@ -126,7 +128,7 @@ class AddTransactionFragment : Fragment() {
 
     private fun initViews() {
         binding.itemIsCompulsory.setOnCheckedChangeListener { _, isChecked ->
-            when(isChecked) {
+            when (isChecked) {
                 true -> binding.itemIsCompulsory.text = getString(R.string.compulsory_expense)
                 false -> binding.itemIsCompulsory.text = getString(R.string.incompulsory_expense)
             }
@@ -196,7 +198,6 @@ class AddTransactionFragment : Fragment() {
             )
             goBack()
         } else {
-            //binding.transactionCategory.error = getString(R.string.InputError)
             binding.itemPrice.error = getString(R.string.InputError)
         }
     }

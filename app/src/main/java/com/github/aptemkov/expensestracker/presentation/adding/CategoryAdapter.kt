@@ -1,11 +1,10 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.adding
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aptemkov.expensestracker.databinding.CategoryItemBinding
-import com.github.mikephil.charting.utils.Utils.init
 
 
 interface CategoryActionListener {

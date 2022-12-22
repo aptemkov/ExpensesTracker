@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.list
 
 import android.os.Bundle
 import android.view.*
@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.FragmentTransactionListBinding
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.ALL_TRANSACTIONS
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.ALL_TRANSACTIONS
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.presentation.ExpensesApplication
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TransactionListFragment : Fragment() {
@@ -25,7 +27,7 @@ class TransactionListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: TransactionAdapter
 
-    private val viewModel: ExpensesViewModel by activityViewModels {
+    private val viewModel: TransactionsViewModel by activityViewModels {
         ExpensesViewModelFactory(
             (activity?.application as ExpensesApplication).database.itemDao()
         )
@@ -39,7 +41,7 @@ class TransactionListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentTransactionListBinding.inflate(inflater, container, false)
         return binding.root
@@ -70,9 +72,9 @@ class TransactionListFragment : Fragment() {
     private fun initViews() {
         binding.floatingActionButton.setOnClickListener {
             val action = TransactionListFragmentDirections.actionNavigationListToAddItemFragment(
-                -1,
-                getString(R.string.add_fragment_title)
-            )
+                    -1,
+                    getString(R.string.add_fragment_title)
+                )
             this.findNavController().navigate(action)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -81,8 +83,7 @@ class TransactionListFragment : Fragment() {
     private fun initRVAdapter() {
         adapter = TransactionAdapter(object : TransactionAdapter.Listener {
             override fun onDetailInfo(itemId: Int) {
-                val action =
-                    TransactionListFragmentDirections.actionNavigationListToItemDetailFragment2(
+                val action = TransactionListFragmentDirections.actionNavigationListToItemDetailFragment(
                         itemId
                     )
                 findNavController().navigate(action)
@@ -113,7 +114,7 @@ class TransactionListFragment : Fragment() {
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
-                id: Long
+                id: Long,
             ) {
                 lifecycleScope.launchWhenStarted {
                     when (position) {

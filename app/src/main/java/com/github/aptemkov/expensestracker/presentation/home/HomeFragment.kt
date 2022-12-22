@@ -1,14 +1,17 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.home
 
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.FragmentHomeBinding
+import com.github.aptemkov.expensestracker.presentation.chart.ChartsViewModel
+import com.github.aptemkov.expensestracker.presentation.ExpensesApplication
+import com.github.aptemkov.expensestracker.presentation.chart.HomeViewModelFactory
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
@@ -48,9 +51,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.floatingActionButton.setOnClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToAddItemFragment(
-                -1,
-                getString(R.string.add_fragment_title)
-            )
+                    -1,
+                    getString(R.string.add_fragment_title)
+                )
             this.findNavController().navigate(action)
         }
 

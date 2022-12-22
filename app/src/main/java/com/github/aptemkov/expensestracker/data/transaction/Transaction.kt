@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker.domain.transaction
+package com.github.aptemkov.expensestracker.data.transaction
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

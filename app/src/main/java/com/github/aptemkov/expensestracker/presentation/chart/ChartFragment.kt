@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.chart
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -6,15 +6,14 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.SCROLLBAR_POSITION_RIGHT
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.FragmentChartBinding
-import com.github.aptemkov.expensestracker.databinding.FragmentHomeBinding
+import com.github.aptemkov.expensestracker.presentation.ExpensesApplication
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
@@ -59,9 +58,9 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     private fun initViews() {
         binding.floatingActionButton.setOnClickListener {
             val action = ChartFragmentDirections.actionNavigationChartToAddItemFragment(
-                -1,
-                getString(R.string.add_fragment_title)
-            )
+                    -1,
+                    getString(R.string.add_fragment_title)
+                )
             this.findNavController().navigate(action)
         }
     }

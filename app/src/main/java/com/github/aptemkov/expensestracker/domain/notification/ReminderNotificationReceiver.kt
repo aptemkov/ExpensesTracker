@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker.notification
+package com.github.aptemkov.expensestracker.domain.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.TransactionItemBinding
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
-import com.github.aptemkov.expensestracker.domain.transaction.getFormattedPrice
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.data.transaction.getFormattedPrice
 import java.text.SimpleDateFormat
 
 class TransactionAdapter(private val listener: Listener) :

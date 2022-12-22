@@ -1,11 +1,11 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation
 
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import com.github.aptemkov.expensestracker.domain.transaction.TransactionRoomDatabase
-import com.github.aptemkov.expensestracker.notification.ReminderNotificationService
+import com.github.aptemkov.expensestracker.data.transaction.TransactionRoomDatabase
+import com.github.aptemkov.expensestracker.domain.notification.ReminderNotificationService
 
 class ExpensesApplication : Application() {
     val database: TransactionRoomDatabase by lazy { TransactionRoomDatabase.getDatabase(this)}

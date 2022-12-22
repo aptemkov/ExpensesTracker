@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation
 
 import android.app.*
 import android.content.Intent
@@ -11,7 +11,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.ActivityMainBinding
+import com.github.aptemkov.expensestracker.domain.notification.ReminderNotificationReceiver
 import com.github.aptemkov.expensestracker.notification.*
 import java.util.*
 
@@ -38,9 +40,6 @@ class MainActivity : AppCompatActivity() {
 
             setupWithNavController(navController)
             background = null
-            /* TODO(Floating action button in bottom nav bar)
-            menu.getItem(2).isEnabled = false
-            */
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -50,8 +49,6 @@ class MainActivity : AppCompatActivity() {
                 else -> showBottomNav()
             }
         }
-        val service = ReminderNotificationService(applicationContext)
-        // service.showNotification(Counter.value)
         setNotification()
     }
 
@@ -70,15 +67,6 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    //TODO(fix launching adding fragment by pressing floating action button)
-    fun openAddingFragment(view: View) {
-        /*supportFragmentManager
-            .beginTransaction()
-            .replace<AddItemFragment>(R.id.nav_host_fragment, args = bundleOf("item_id" to -1))
-            .addToBackStack(null)
-            .commit()*/
-        Toast.makeText(this, "SOON", Toast.LENGTH_SHORT).show()
-    }
 
     fun setNotification() {
 
