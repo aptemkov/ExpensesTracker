@@ -26,13 +26,12 @@ class TransactionAdapter(private val listener: Listener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = TransactionItemBinding.inflate(inflater, parent, false)
-        binding.root.setOnClickListener(this)
+        binding.transactionCv.setOnClickListener(this)
         return ItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = getItem(position)
-
         holder.bind(item)
     }
 

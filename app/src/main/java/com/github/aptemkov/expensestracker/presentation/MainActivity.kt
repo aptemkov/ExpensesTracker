@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.ActivityMainBinding
 import com.github.aptemkov.expensestracker.domain.notification.ReminderNotificationReceiver
-import com.github.aptemkov.expensestracker.notification.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
