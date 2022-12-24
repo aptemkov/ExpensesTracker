@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker.domain.transaction
+package com.github.aptemkov.expensestracker.data.transaction
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,7 +10,7 @@ data class Transaction (
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
     @ColumnInfo(name = "transactionType")
-    var transactionType: String = EXPENSE,
+    val transactionType: String = EXPENSE,
     @ColumnInfo(name = "category")
     val transactionCategory: String,
     @ColumnInfo(name = "price")
@@ -21,6 +21,7 @@ data class Transaction (
     val isCompulsory: Boolean = true,
     @ColumnInfo(name = "description")
     val transactionDescription: String = transactionCategory,
+    var isFirstInDay: Boolean = false
 
 ) {
     companion object {

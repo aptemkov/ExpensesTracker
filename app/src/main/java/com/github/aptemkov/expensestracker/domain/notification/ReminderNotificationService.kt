@@ -1,11 +1,11 @@
-package com.github.aptemkov.expensestracker.notification
+package com.github.aptemkov.expensestracker.domain.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.github.aptemkov.expensestracker.MainActivity
+import com.github.aptemkov.expensestracker.presentation.MainActivity
 import com.github.aptemkov.expensestracker.R
 
 class ReminderNotificationService(private val context: Context) {

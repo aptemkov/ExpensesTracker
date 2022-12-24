@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.details
 
 import android.os.Bundle
 import android.view.*
@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.getFormattedPrice
+import com.github.aptemkov.expensestracker.R
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.data.transaction.getFormattedPrice
 import com.github.aptemkov.expensestracker.databinding.FragmentItemDetailBinding
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.presentation.ExpensesApplication
+import com.github.aptemkov.expensestracker.presentation.list.ExpensesViewModelFactory
+import com.github.aptemkov.expensestracker.presentation.list.TransactionsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,10 +23,8 @@ class ItemDetailFragment : Fragment() {
     private var _binding: FragmentItemDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ExpensesViewModel by activityViewModels {
-        ExpensesViewModelFactory(
-            (activity?.application as ExpensesApplication).database.itemDao()
-        )
+    private val viewModel: TransactionsViewModel by activityViewModels {
+        ExpensesViewModelFactory((activity?.application as ExpensesApplication).database.itemDao())
     }
 
     lateinit var transaction: Transaction
@@ -35,7 +37,7 @@ class ItemDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,15 +53,12 @@ class ItemDetailFragment : Fragment() {
     }
 
     private fun showConfirmationDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(android.R.string.dialog_alert_title))
-            .setMessage(getString(R.string.delete_question))
-            .setCancelable(false)
+        MaterialAlertDialogBuilder(requireContext()).setTitle(getString(android.R.string.dialog_alert_title))
+            .setMessage(getString(R.string.delete_question)).setCancelable(false)
             .setNegativeButton(getString(R.string.no)) { _, _ -> }
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 deleteItem()
-            }
-            .show()
+            }.show()
     }
 
     private fun deleteItem() {
@@ -89,9 +88,9 @@ class ItemDetailFragment : Fragment() {
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             itemDescription.text = transaction.transactionDescription
 
-                //editItemButton.setOnClickListener { editItem() }
+            //editItemButton.setOnClickListener { editItem() }
 
-                //deleteItem.setOnClickListener { showConfirmationDialog() }
+            //deleteItem.setOnClickListener { showConfirmationDialog() }
             editItemFab.setOnClickListener { editItem() }
         }
 
@@ -99,9 +98,8 @@ class ItemDetailFragment : Fragment() {
 
     private fun editItem() {
         val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddItemFragment(
-            transaction.id,
-            getString(R.string.edit_fragment_title)
-        )
+                transaction.id,
+                getString(R.string.edit_fragment_title))
         this.findNavController().navigate(action)
     }
 

@@ -1,4 +1,4 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.TransactionItemBinding
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
-import com.github.aptemkov.expensestracker.domain.transaction.getFormattedPrice
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.data.transaction.getFormattedPrice
 import java.text.SimpleDateFormat
 
 class TransactionAdapter(private val listener: Listener) :
@@ -25,13 +26,12 @@ class TransactionAdapter(private val listener: Listener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = TransactionItemBinding.inflate(inflater, parent, false)
-        binding.root.setOnClickListener(this)
+        binding.transactionCv.setOnClickListener(this)
         return ItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = getItem(position)
-
         holder.bind(item)
     }
 
@@ -40,13 +40,19 @@ class TransactionAdapter(private val listener: Listener) :
 
         fun bind(transaction: Transaction) {
             binding.apply {
-                root.tag = transaction
+                transactionCv.tag = transaction
 
                 itemCategory.text = transaction.transactionCategory
                 itemDescription.text = transaction.transactionDescription
 
-                val simpleDateFormat = SimpleDateFormat("HH:mm ")
-                itemDate.text = simpleDateFormat.format(transaction.date)
+                val simpleTimeFormat = SimpleDateFormat("HH:mm ")
+                itemDate.text = simpleTimeFormat.format(transaction.date)
+
+                val simpleDayFormat = SimpleDateFormat("EEEE, dd MMMM ")
+                title.text = simpleDayFormat.format(transaction.date)
+
+                if (transaction.isFirstInDay) title.visibility = View.VISIBLE
+                else title.visibility = View.GONE
 
                 when (transaction.transactionType) {
                     EXPENSE -> {

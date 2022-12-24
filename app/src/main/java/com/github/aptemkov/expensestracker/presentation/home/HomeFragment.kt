@@ -1,27 +1,28 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.home
 
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.github.aptemkov.expensestracker.databinding.FragmentChartBinding
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.databinding.FragmentHomeBinding
+import com.github.aptemkov.expensestracker.presentation.chart.ChartsViewModel
+import com.github.aptemkov.expensestracker.presentation.ExpensesApplication
+import com.github.aptemkov.expensestracker.presentation.chart.HomeViewModelFactory
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 
-class ChartFragment : Fragment(R.layout.fragment_chart) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private var _binding: FragmentChartBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ChartsViewModel by activityViewModels {
@@ -30,91 +31,61 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentChartBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
 
-        viewModel.allItems.observe(this.viewLifecycleOwner) {
-            it.let {
-                initPieChart(viewModel.getMapForPieChart(it))
-            }
-        }
-        viewModel.allExpenses.observe(this.viewLifecycleOwner) {
-            it.let {
-                initCubicChart(viewModel.getMapForCubicChart(it.reversed()))
-            }
-        }
-    }
 
-    private fun initViews() {
         binding.floatingActionButton.setOnClickListener {
-            val action = ChartFragmentDirections.actionNavigationChartToAddItemFragment(
-                -1,
-                getString(R.string.add_fragment_title)
-            )
+            val action = HomeFragmentDirections.actionNavigationHomeToAddItemFragment(
+                    -1,
+                    getString(R.string.add_fragment_title)
+                )
             this.findNavController().navigate(action)
         }
-    }
 
-    private fun initCubicChart(pairsForCubic: List<Pair<Float, Float>>) {
-        with(binding.cubicChart) {
-            val lineDataSet = LineDataSet(pairsForCubic.map { Entry(it.first, it.second) }, null)
-            with(lineDataSet) {
-                lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-                lineDataSet.color = resources.getColor(R.color.dynamic_primary)
-                lineDataSet.valueTextColor = resources.getColor(R.color.dynamic_black_white)
-                setDrawValues(false)
-                lineDataSet.valueTextSize = 12f
-                setDrawFilled(true)
-                fillDrawable = activity?.applicationContext?.let {
-                    ContextCompat.getDrawable(it, R.drawable.bg_spark_line)
-                }
+        viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
+            with(viewModel) {
+                getFormattedWithCurrencyValue(viewModel.getTotalExpense(items))
+                    .also { binding.tvTotalExpense.text = it }
 
-                setDrawCircles(false)
-                isHighlightEnabled = true
-                setDrawHighlightIndicators(false)
-                lineWidth = 2f
+                getFormattedWithCurrencyValue(viewModel.getTotalCouldSave(items))
+                    .also { binding.tvCouldSave.text = it }
+
+                getFormattedWithCurrencyValue(viewModel.getTotalIncome(items))
+                    .also { binding.tvTotalIncome.text = it }
+
+                getFormattedWithCurrencyValue(viewModel.getTotalBalance(items))
+                    .also { binding.tvTotalBalance.text = it }
+
+                initPieChart(getCompulsoryAndNotCompulsory(requireActivity().applicationContext,
+                    items))
             }
-            data = LineData(lineDataSet)
-
-
-            animateXY(1400, 1400)
-
-            isScaleXEnabled = false
-            isScaleYEnabled = false
-            defaultFocusHighlightEnabled = false
-            description.isEnabled = false
-            legend.isEnabled = false
-
-            axisLeft.apply {
-                textColor = resources.getColor(R.color.dynamic_black_white)
-                isEnabled = true
-                isGranularityEnabled = true
-                granularity = 10f
-                axisMaximum = pairsForCubic.maxBy { it.second }.second * 1.2f
-            }
-            axisRight.isEnabled = false
-            xAxis.isEnabled = false
-
-            setVisibleXRangeMaximum(pairsForCubic.maxBy { it.first }.first / 2)
-            setDrawGridBackground(false)
         }
-
-
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     private fun initPieChart(mapForPieChart: Map<String, Double>) {
-        val mainColor = resources.getColor(R.color.dynamic_black_white)
+
+
+        val mainColor = binding.tvCouldSave.currentTextColor
         with(binding.pieChart) {
             // on below line we are setting user percent value,
             setUsePercentValues(true)
@@ -139,7 +110,6 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
             // on below line we are setting center text
             setDrawCenterText(true)
-            centerText = "Expenses\nTracker"
             setCenterTextColor(mainColor)
 
             // on below line we are setting
@@ -152,6 +122,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
             // on below line we are setting animation for our pie chart
             animateY(1400, Easing.EaseInOutQuad)
+
             // on below line we are enabling our legend for pie chart
             legend.isEnabled = true
             setEntryLabelColor(mainColor)
@@ -183,23 +154,16 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
             // add a lot of colors to list
             val colors: List<Int> = listOf(
-                resources.getColor(R.color.pie_chart_color1),
-                resources.getColor(R.color.pie_chart_color2),
-                resources.getColor(R.color.pie_chart_color3),
-                resources.getColor(R.color.pie_chart_color4),
-                resources.getColor(R.color.pie_chart_color5),
-                resources.getColor(R.color.pie_chart_color6),
-                resources.getColor(R.color.pie_chart_color7),
-                resources.getColor(R.color.pie_chart_color8),
-                resources.getColor(R.color.pie_chart_color9),
-                resources.getColor(R.color.pie_chart_color10),
-                resources.getColor(R.color.pie_chart_color11),
-                resources.getColor(R.color.pie_chart_color12),
-                resources.getColor(R.color.pie_chart_color13),
+
+                resources.getColor(R.color.expense_color),
+                resources.getColor(R.color.could_save_color),
+                resources.getColor(R.color.income_color),
+
                 resources.getColor(R.color.pie_chart_color14),
-                resources.getColor(R.color.pie_chart_color15),
-                resources.getColor(R.color.pie_chart_color16),
-                resources.getColor(R.color.pie_chart_color17),
+
+                resources.getColor(R.color.pie_chart_color1),
+
+                resources.getColor(R.color.pie_chart_color5),
             )
             // on below line we are setting colors.
             dataSet.colors = colors
@@ -217,7 +181,32 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
             // loading chart
             invalidate()
+        }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_ui_theme -> {
+                item.isChecked = !item.isChecked
+                setUITheme(item, item.isChecked)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    private fun setUITheme(item: MenuItem, isChecked: Boolean) {
+        if (isChecked) {
+            viewModel.setDarkMode(true)
+            item.setIcon(R.drawable.ic_dark)
+        } else {
+            viewModel.setDarkMode(false)
+            item.setIcon(R.drawable.ic_light)
         }
     }
 

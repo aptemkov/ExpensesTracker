@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.github.aptemkov.expensestracker.HomeFragment"
+        android:name="com.github.aptemkov.expensestracker.presentation.home.HomeFragment"
         android:label="@string/home_fragment_title"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,11 +19,11 @@
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="com.github.aptemkov.expensestracker.TransactionListFragment"
+        android:name="com.github.aptemkov.expensestracker.presentation.list.TransactionListFragment"
         android:label=""
         tools:layout="@layout/fragment_transaction_list" >
         <action
-            android:id="@+id/action_navigation_list_to_itemDetailFragment2"
+            android:id="@+id/action_navigation_list_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
         <action
             android:id="@+id/action_navigation_list_to_addItemFragment"
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.github.aptemkov.expensestracker.SettingsFragment"
+        android:name="com.github.aptemkov.expensestracker.presentation.settings.SettingsFragment"
         android:label="@string/settings_fragment_title"
         tools:layout="@layout/fragment_settings" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemDetailFragment"
-        android:name="com.github.aptemkov.expensestracker.ItemDetailFragment"
+        android:name="com.github.aptemkov.expensestracker.presentation.details.ItemDetailFragment"
         android:label="@string/detail_fragment_title"
         tools:layout="@layout/fragment_item_detail">
         <argument
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/addItemFragment"
-        android:name="com.github.aptemkov.expensestracker.AddTransactionFragment"
+        android:name="com.github.aptemkov.expensestracker.presentation.adding.AddTransactionFragment"
         android:label="{title}" >
         <action
             android:id="@+id/action_addItemFragment_to_navigation_list"
@@ -73,7 +73,7 @@
 
     <fragment
         android:id="@+id/navigation_chart"
-        android:name="com.github.aptemkov.expensestracker.ChartFragment"
+        android:name="com.github.aptemkov.expensestracker.presentation.chart.ChartFragment"
         android:label="@string/chart_fragment_title"
         tools:layout="@layout/fragment_chart" >
         <action
@@ -83,12 +83,9 @@
 
     <fragment
         android:id="@+id/secretFragment"
-        android:name="com.github.aptemkov.expensestracker.SecretFragment"
-        android:label="{title}"
+        android:name="com.github.aptemkov.expensestracker.presentation.secret.SecretFragment"
+        android:label="@string/secret_fragment_title"
         tools:layout="@layout/fragment_secret" >
-        <argument
-            android:name="title"
-            app:argType="string" />
     </fragment>
 
 </navigation>

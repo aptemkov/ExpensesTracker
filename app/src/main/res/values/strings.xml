@@ -51,6 +51,7 @@
     <string name="total_expenses">Total expenses</string>
     <string name="ui_theme">UI theme</string>
     <string name="spend_frequency">Spend frequency</string>
+    <string name="secret_fragment_title">Secret</string>
 
 
     <string-array name="expense_categories">

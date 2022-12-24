@@ -1,17 +1,15 @@
-package com.github.aptemkov.expensestracker
+package com.github.aptemkov.expensestracker.presentation.chart
 
 import android.content.Context
-import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.*
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.EXPENSE
-import com.github.aptemkov.expensestracker.domain.transaction.Transaction.Companion.INCOME
-import com.github.aptemkov.expensestracker.domain.transaction.TransactionDao
+import com.github.aptemkov.expensestracker.R
+import com.github.aptemkov.expensestracker.data.transaction.Transaction
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.EXPENSE
+import com.github.aptemkov.expensestracker.data.transaction.Transaction.Companion.INCOME
+import com.github.aptemkov.expensestracker.data.transaction.TransactionDao
 import kotlinx.coroutines.flow.Flow
 import java.text.NumberFormat
-import kotlin.coroutines.coroutineContext
 
 
 class ChartsViewModel(private val transactionDao: TransactionDao) : ViewModel() {
