@@ -40,7 +40,7 @@ class TransactionAdapter(private val listener: Listener) :
 
         fun bind(transaction: Transaction) {
             binding.apply {
-                root.tag = transaction
+                transactionCv.tag = transaction
 
                 itemCategory.text = transaction.transactionCategory
                 itemDescription.text = transaction.transactionDescription
