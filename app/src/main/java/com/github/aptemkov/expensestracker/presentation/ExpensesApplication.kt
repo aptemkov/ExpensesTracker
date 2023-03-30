@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import com.github.aptemkov.expensestracker.R
 import com.github.aptemkov.expensestracker.data.transaction.TransactionRoomDatabase
 import com.github.aptemkov.expensestracker.domain.notification.ReminderNotificationService
 
@@ -19,10 +20,10 @@ class ExpensesApplication : Application() {
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             ReminderNotificationService.REMINDER_CHANNEL_ID,
-            "Counter",
+            getString(R.string.notification_name),
             NotificationManager.IMPORTANCE_DEFAULT
         )
-        channel.description = "Used for the increment counter notifications"
+        channel.description = getString(R.string.notification_desction)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)

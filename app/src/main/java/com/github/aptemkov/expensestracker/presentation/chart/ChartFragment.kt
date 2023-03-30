@@ -50,7 +50,9 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         }
         viewModel.allExpenses.observe(this.viewLifecycleOwner) {
             it.let {
-                initCubicChart(viewModel.getMapForCubicChart(it.reversed()))
+                if(!it.isNullOrEmpty()) {
+                    initCubicChart(viewModel.getMapForCubicChart(it.reversed()))
+                }
             }
         }
     }
