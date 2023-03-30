@@ -52,6 +52,8 @@
     <string name="ui_theme">UI theme</string>
     <string name="spend_frequency">Spend frequency</string>
     <string name="secret_fragment_title">Secret</string>
+    <string name="notification_desction">Used for reminding about adding transactions</string>
+    <string name="notification_name">Reminder</string>
 
 
     <string-array name="expense_categories">

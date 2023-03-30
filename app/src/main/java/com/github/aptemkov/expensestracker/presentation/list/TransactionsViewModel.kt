@@ -64,7 +64,7 @@ class TransactionsViewModel(private val transactionDao: TransactionDao) : ViewMo
 
     fun isEntryValid(transactionCategory: String, transactionPrice: String, date: String): Boolean {
         if (transactionCategory.isBlank() || transactionPrice.isBlank() || date.isBlank()
-            || transactionPrice.length > 9) {
+            || transactionPrice.length > 9 || transactionPrice == ".") {
             return false
         }
         return true

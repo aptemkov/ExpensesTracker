@@ -94,6 +94,7 @@ class AddTransactionFragment : Fragment() {
                 R.id.radiobutton_expense -> {
                     adapter.categories = expenseCategories.toList()
                     firstCategory = adapter.categories.first()
+                    category = firstCategory
                     binding.categoriesRv.adapter = adapter
                     binding.itemIsCompulsory.visibility = View.VISIBLE
                     transactionType = EXPENSE
@@ -101,6 +102,7 @@ class AddTransactionFragment : Fragment() {
                 R.id.radiobutton_income -> {
                     adapter.categories = incomeCategories.toList()
                     firstCategory = adapter.categories.first()
+                    category = firstCategory
                     binding.categoriesRv.adapter = adapter
                     binding.itemIsCompulsory.visibility = View.GONE
                     transactionType = INCOME
