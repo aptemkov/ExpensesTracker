@@ -1,9 +1,8 @@
 # ExpensesTracker
 
-Location reminder is TODO app with geozones integration. 
 Expenses tracker is a simple Android app for tracking your budget. 
 
-The user can select a geofence to perform a task in it and can be notified when they enter it.
+The user can add new expenses / incomes and can keep track of his budget
 
 
 # 🧐Want to try it?
@@ -26,6 +25,7 @@ You can download the demo from [here (soon)](https://github.com/aptemkov/Expense
 * [Jetpack Navigation](https://developer.android.com/guide/navigation) for navigation
 * View Model
 * Live Data
+* [MPChart](https://github.com/PhilJay/MPAndroidChart) for charts.
 
 # 🔗Do you Want more?
 
